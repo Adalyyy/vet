@@ -1,59 +1,94 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🐾 Sistema de Gestión Veterinaria
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistema web para la gestión de una clínica veterinaria, desarrollado con **Laravel 11** y la plantilla **SB Admin 2**.
 
-## About Laravel
+## Requisitos
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- PHP >= 8.2
+- Composer
+- MySQL / MariaDB
+- Servidor web (Apache/Nginx)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Instalación
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+```bash
+# Clonar el repositorio
+git clone <url-del-repositorio>
+cd vet
 
-## Learning Laravel
+# Instalar dependencias
+composer install
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+# Copiar archivo de entorno y configurar base de datos
+cp .env.example .env
+php artisan key:generate
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+# Ejecutar migraciones y seeders
+php artisan migrate:fresh --seed
+```
 
-## Laravel Sponsors
+## Usuarios de Prueba
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+| Usuario        | Contraseña     | Rol            |
+|----------------|----------------|----------------|
+| `admin`        | `admin`        | Administrador  |
+| `veterinario`  | `veterinario`  | Veterinario    |
 
-### Premium Partners
+## Estructura del Proyecto
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### Roles
 
-## Contributing
+El sistema maneja dos roles mediante un campo `enum` en la tabla `users`:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- **Administrador** — Accede al panel de administración (`/admin/home`) con sidebar oscuro. Enfocado en gestión de usuarios, veterinarios, reportes y configuración del sistema.
+- **Veterinario** — Accede al dashboard clínico (`/home`) con sidebar azul. Enfocado en pacientes, consultas, propietarios e inventario.
 
-## Code of Conduct
+### Protección por Rol
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Se utiliza un middleware `CheckRole` que:
+- Verifica que el usuario autenticado tenga el rol requerido para acceder a la ruta.
+- Si el rol no coincide, redirige al dashboard correspondiente a su rol.
+- Previene acceso cruzado entre paneles.
 
-## Security Vulnerabilities
+### Arquitectura de Vistas
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```
+resources/views/
+├── layouts/
+│   ├── app.blade.php                  ← Layout veterinario
+│   ├── admin.blade.php                ← Layout administrador
+│   ├── auth.blade.php                 ← Layout de autenticación
+│   └── partials/
+│       ├── sidebar.blade.php          ← Sidebar veterinario (azul)
+│       ├── topbar.blade.php           ← Topbar veterinario
+│       ├── footer.blade.php           ← Footer veterinario
+│       └── admin/
+│           ├── sidebar.blade.php      ← Sidebar administrador (oscuro)
+│           ├── topbar.blade.php       ← Topbar administrador
+│           └── footer.blade.php       ← Footer administrador
+└── modules/
+    ├── auth/
+    │   └── login.blade.php            ← Página de login
+    ├── dashboard/
+    │   └── home.blade.php             ← Dashboard veterinario
+    └── admin/
+        └── dashboard.blade.php        ← Dashboard administrador
+```
 
-## License
+### Rutas Principales
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+| Método | URI           | Nombre       | Rol requerido  |
+|--------|---------------|--------------|----------------|
+| GET    | `/`           | `login`      | Invitado       |
+| POST   | `/logear`     | `logear`     | Invitado       |
+| GET    | `/home`       | `home`       | Veterinario    |
+| GET    | `/admin/home` | `admin.home` | Administrador  |
+| GET    | `/logout`     | `logout`     | Autenticado    |
+
+## Tecnologías
+
+- **Backend:** Laravel 11
+- **Frontend:** SB Admin 2 (Bootstrap 4)
+- **Base de datos:** MySQL
+- **Iconos:** Font Awesome 5
+- **Tipografía:** Nunito (Google Fonts)
