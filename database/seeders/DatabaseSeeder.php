@@ -20,6 +20,14 @@ class DatabaseSeeder extends Seeder
             'name' => 'admin',
             'email' => 'admin',
             'password' => Hash::make('admin'),
+            'rol' => 'administrador',
+        ]);
+
+        User::create([
+            'name' => 'veterinario',
+            'email' => 'veterinario',
+            'password' => Hash::make('veterinario'),
+            'rol' => 'veterinario',
         ]);
     }
 }

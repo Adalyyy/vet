@@ -9,6 +9,15 @@ Route::middleware("guest")->group(function () {
 });
 
 Route::middleware("auth")->group(function () {
-    Route::get('/home',[AuthController::class,'home'])->name('home');
     Route::get('/logout',[AuthController::class,'logout'])->name('logout');
+
+    // Rutas veterinario
+    Route::middleware('role:veterinario')->group(function () {
+        Route::get('/home',[AuthController::class,'home'])->name('home');
+    });
+
+    // Rutas administrador
+    Route::middleware('role:administrador')->prefix('admin')->group(function () {
+        Route::get('/home',[AuthController::class,'adminHome'])->name('admin.home');
+    });
 });
