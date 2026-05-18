@@ -19,5 +19,7 @@ Route::middleware("auth")->group(function () {
     // Rutas administrador
     Route::middleware('role:administrador')->prefix('admin')->group(function () {
         Route::get('/home',[AuthController::class,'adminHome'])->name('admin.home');
+        Route::get('/usuarios',[App\Http\Controllers\Admin\UserController::class,'index'])->name('admin.users.index');
+        Route::get('/usuarios/crear',[App\Http\Controllers\Admin\UserController::class,'create'])->name('admin.users.create');
     });
 });
