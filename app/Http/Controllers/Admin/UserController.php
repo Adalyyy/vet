@@ -18,4 +18,23 @@ class UserController extends Controller
     {
         return view('modules.admin.users.create');
     }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'rol' => 'required|in:administrador,veterinario',
+        ]);
+
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => \Illuminate\Support\Facades\Hash::make($request->password),
+            'rol' => $request->rol,
+        ]);
+
+        return redirect()->route('admin.users.index')->with('success', 'Usuario creado correctamente.');
+    }
 }

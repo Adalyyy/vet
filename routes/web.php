@@ -21,5 +21,6 @@ Route::middleware("auth")->group(function () {
         Route::get('/home',[AuthController::class,'adminHome'])->name('admin.home');
         Route::get('/usuarios',[App\Http\Controllers\Admin\UserController::class,'index'])->name('admin.users.index');
         Route::get('/usuarios/crear',[App\Http\Controllers\Admin\UserController::class,'create'])->name('admin.users.create');
+        Route::post('/usuarios',[App\Http\Controllers\Admin\UserController::class,'store'])->name('admin.users.store');
     });
 });
