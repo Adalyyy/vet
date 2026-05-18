@@ -10,6 +10,11 @@ Route::middleware("guest")->group(function () {
 
 Route::middleware("auth")->group(function () {
     Route::get('/logout',[AuthController::class,'logout'])->name('logout');
+    
+    // Ruta expedientes
+    Route::get('/expedientes', function () {
+        return view('expedientes.index');
+    })->name('expedientes.index');
 
     // Rutas veterinario
     Route::middleware('role:veterinario')->group(function () {
