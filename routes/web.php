@@ -11,10 +11,9 @@ Route::middleware("guest")->group(function () {
 Route::middleware("auth")->group(function () {
     Route::get('/logout',[AuthController::class,'logout'])->name('logout');
     
-    // Ruta expedientes
-    Route::get('/expedientes', function () {
-        return view('expedientes.index');
-    })->name('expedientes.index');
+    // Rutas expedientes
+    Route::get('/expedientes', [App\Http\Controllers\ExpedienteController::class, 'index'])->name('expedientes.index');
+    Route::get('/expedientes/buscar', [App\Http\Controllers\ExpedienteController::class, 'search'])->name('expedientes.search');
 
     // Rutas veterinario
     Route::middleware('role:veterinario')->group(function () {

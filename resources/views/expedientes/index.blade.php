@@ -9,15 +9,20 @@
         </div>
         <div class="card-body">
             <!-- Buscador -->
-            <div class="row justify-content-center mb-5 mt-3">
+            <div class="row justify-content-center mb-5 mt-3 position-relative">
                 <div class="col-md-8">
                     <div class="input-group input-group-lg shadow-sm rounded">
-                        <input type="text" class="form-control border-0 bg-light" placeholder="Buscar expediente por nombre de mascota o cliente..." aria-label="Buscar expediente" aria-describedby="basic-addon2">
+                        <input type="text" id="searchInput" class="form-control border-0 bg-light" placeholder="Buscar expediente por nombre de mascota o cliente..." aria-label="Buscar expediente" aria-describedby="basic-addon2" autocomplete="off">
                         <div class="input-group-append">
                             <button class="btn btn-primary px-4" type="button">
                                 <i class="fas fa-search"></i>
                             </button>
                         </div>
+                    </div>
+                    
+                    <!-- Contenedor de Resultados de Búsqueda -->
+                    <div id="searchResults" class="list-group position-absolute w-100 shadow mt-1" style="z-index: 1000; display: none;">
+                        <!-- Resultados inyectados por JS -->
                     </div>
                 </div>
             </div>
@@ -37,4 +42,66 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
+        let timeout = null;
+
+        searchInput.addEventListener('input', function() {
+            clearTimeout(timeout);
+            const query = this.value.trim();
+
+            if (query.length === 0) {
+                searchResults.style.display = 'none';
+                searchResults.innerHTML = '';
+                return;
+            }
+
+            timeout = setTimeout(() => {
+                fetch(`{{ route('expedientes.search') }}?query=${encodeURIComponent(query)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        searchResults.innerHTML = '';
+                        if (data.length > 0) {
+                            data.forEach(item => {
+                                const a = document.createElement('a');
+                                a.href = item.url;
+                                a.className = 'list-group-item list-group-item-action border-left-primary';
+                                a.innerHTML = `
+                                    <div class="d-flex w-100 justify-content-between">
+                                      <h6 class="mb-1 text-primary font-weight-bold"><i class="fas fa-paw mr-1"></i> ${item.nombre} <small class="text-muted ml-2">(Folio #${item.id})</small></h6>
+                                    </div>
+                                    <p class="mb-1 small text-gray-800"><i class="fas fa-user mr-1 text-gray-400"></i> ${item.dueno_nombre} <span class="mx-2 text-gray-300">|</span> <i class="fas fa-tag mr-1 text-gray-400"></i> ${item.especie}</p>
+                                `;
+                                searchResults.appendChild(a);
+                            });
+                            searchResults.style.display = 'block';
+                        } else {
+                            searchResults.innerHTML = '<div class="list-group-item text-muted text-center py-3"><i class="fas fa-search-minus fa-2x mb-2 text-gray-300 d-block"></i> No se encontraron resultados.</div>';
+                            searchResults.style.display = 'block';
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            }, 300); // 300ms debounce
+        });
+
+        // Ocultar resultados al hacer clic fuera del buscador
+        document.addEventListener('click', function(e) {
+            if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+                searchResults.style.display = 'none';
+            }
+        });
+        
+        // Volver a mostrar si se hace clic en el input y hay texto
+        searchInput.addEventListener('click', function() {
+            if (this.value.trim().length > 0 && searchResults.innerHTML !== '') {
+                searchResults.style.display = 'block';
+            }
+        });
+    });
+</script>
 @endsection

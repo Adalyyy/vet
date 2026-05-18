@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Mascota extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
 
     protected $fillable = [
         'dueno_id',
@@ -23,5 +24,13 @@ class Mascota extends Model
     public function dueno()
     {
         return $this->belongsTo(Dueno::class);
+    }
+
+    public function toSearchableArray()
+    {
+        return [
+            'id' => (string) $this->id, // Convert to string for LIKE query compatibility sometimes, but int is fine.
+            'nombre' => $this->nombre,
+        ];
     }
 }
