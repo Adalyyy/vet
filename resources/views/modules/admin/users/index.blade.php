@@ -50,13 +50,17 @@
                                 </span>
                             </td>
                             <td>
-                                <a href="#" class="btn btn-warning btn-sm" title="Editar"><i class="fas fa-edit"></i></a>
-                                <a href="#" class="btn btn-danger btn-sm" title="Eliminar"><i class="fas fa-trash"></i></a>
+                                <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-warning btn-sm" title="Editar"><i class="fas fa-edit"></i></a>
+                                <a href="{{ route('admin.users.show', $user->id) }}" class="btn btn-danger btn-sm" title="Eliminar"><i class="fas fa-trash"></i></a>
                             </td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
+            </div>
+            
+            <div class="d-flex justify-content-end mt-3">
+                {{ $users->links('pagination::bootstrap-4') }}
             </div>
         </div>
     </div>
