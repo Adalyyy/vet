@@ -11,15 +11,15 @@ Route::middleware("guest")->group(function () {
 Route::middleware("auth")->group(function () {
     Route::get('/logout',[AuthController::class,'logout'])->name('logout');
     
-    // Rutas expedientes
-    Route::get('/expedientes', [App\Http\Controllers\ExpedienteController::class, 'index'])->name('expedientes.index');
-    Route::get('/expedientes/buscar', [App\Http\Controllers\ExpedienteController::class, 'search'])->name('expedientes.search');
-    Route::get('/expedientes/{mascota}/consultas', [App\Http\Controllers\ExpedienteController::class, 'consultas'])->name('expedientes.consultas');
-    Route::get('/expedientes/{mascota}/consultas/{consulta}', [App\Http\Controllers\ExpedienteController::class, 'consultaDetalle'])->name('expedientes.consulta_detalle');
-
     // Rutas veterinario
     Route::middleware('role:veterinario')->group(function () {
         Route::get('/home',[AuthController::class,'home'])->name('home');
+        
+        // Rutas expedientes
+        Route::get('/expedientes', [App\Http\Controllers\ExpedienteController::class, 'index'])->name('expedientes.index');
+        Route::get('/expedientes/buscar', [App\Http\Controllers\ExpedienteController::class, 'search'])->name('expedientes.search');
+        Route::get('/expedientes/{mascota}/consultas', [App\Http\Controllers\ExpedienteController::class, 'consultas'])->name('expedientes.consultas');
+        Route::get('/expedientes/{mascota}/consultas/{consulta}', [App\Http\Controllers\ExpedienteController::class, 'consultaDetalle'])->name('expedientes.consulta_detalle');
     });
 
     // Rutas administrador
