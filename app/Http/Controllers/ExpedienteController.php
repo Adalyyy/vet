@@ -40,4 +40,10 @@ class ExpedienteController extends Controller
 
         return response()->json($data);
     }
+
+    public function consultas(Mascota $mascota)
+    {
+        $mascota->load('dueno', 'consultas.veterinario');
+        return view('expedientes.consultas', compact('mascota'));
+    }
 }
