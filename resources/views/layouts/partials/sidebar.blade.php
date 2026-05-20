@@ -28,8 +28,8 @@
     </div>
 
     <!-- Nav Item - Diagnóstico -->
-    <li class="nav-item">
-        <a class="nav-link" href="#">
+    <li class="nav-item {{ request()->routeIs('expedientes.diagnostico') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ (isset($mascota) && isset($consulta)) ? route('expedientes.diagnostico', ['mascota' => $mascota->id, 'consulta' => $consulta->id]) : '#' }}">
             <i class="fas fa-fw fa-stethoscope"></i>
             <span>Diagnóstico de la consulta</span>
         </a>

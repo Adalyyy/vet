@@ -61,4 +61,16 @@ class ExpedienteController extends Controller
 
         return view('expedientes.consulta_detalle', compact('mascota', 'consulta', 'showSidebar'));
     }
+
+    public function diagnostico(Mascota $mascota, Consulta $consulta)
+    {
+        // Validar que la consulta pertenezca a la mascota
+        if ($consulta->mascota_id !== $mascota->id) {
+            abort(404);
+        }
+
+        $showSidebar = true;
+
+        return view('expedientes.diagnostico', compact('mascota', 'consulta', 'showSidebar'));
+    }
 }
