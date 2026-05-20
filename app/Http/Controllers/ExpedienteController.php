@@ -57,7 +57,8 @@ class ExpedienteController extends Controller
 
         $consulta->load('veterinario');
         $mascota->load('dueno');
+        $showSidebar = true;
 
-        return view('expedientes.consulta_detalle', compact('mascota', 'consulta'));
+        return view('expedientes.consulta_detalle', compact('mascota', 'consulta', 'showSidebar'));
     }
 }

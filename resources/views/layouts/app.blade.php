@@ -26,9 +26,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        @if(isset($showSidebar) && $showSidebar)
-            @include('layouts.partials.sidebar')
-        @endif
+        @include('layouts.partials.sidebar')
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->

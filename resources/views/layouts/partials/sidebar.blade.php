@@ -14,8 +14,8 @@
     <!-- Nav Item - Dashboard -->
     <li class="nav-item {{ request()->routeIs('home') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('home') }}">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span>
+            <i class="fas fa-fw fa-home"></i>
+            <span>Inicio</span>
         </a>
     </li>
 
@@ -24,44 +24,22 @@
 
     <!-- Heading -->
     <div class="sidebar-heading">
-        Gestión
+        Detalles Médicos
     </div>
 
-    <!-- Nav Item - Pacientes Collapse Menu -->
+    <!-- Nav Item - Diagnóstico -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePacientes"
-            aria-expanded="true" aria-controls="collapsePacientes">
-            <i class="fas fa-fw fa-dog"></i>
-            <span>Pacientes</span>
-        </a>
-        <div id="collapsePacientes" class="collapse" aria-labelledby="headingPacientes" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="#">Listar pacientes</a>
-                <a class="collapse-item" href="#">Nuevo paciente</a>
-            </div>
-        </div>
-    </li>
-
-    <!-- Nav Item - Consultas Collapse Menu -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseConsultas"
-            aria-expanded="true" aria-controls="collapseConsultas">
+        <a class="nav-link" href="#">
             <i class="fas fa-fw fa-stethoscope"></i>
-            <span>Consultas</span>
+            <span>Diagnóstico de la consulta</span>
         </a>
-        <div id="collapseConsultas" class="collapse" aria-labelledby="headingConsultas" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="#">Listar consultas</a>
-                <a class="collapse-item" href="#">Nueva consulta</a>
-            </div>
-        </div>
     </li>
 
-    <!-- Nav Item - Propietarios -->
+    <!-- Nav Item - Tratamiento -->
     <li class="nav-item">
         <a class="nav-link" href="#">
-            <i class="fas fa-fw fa-users"></i>
-            <span>Propietarios</span>
+            <i class="fas fa-fw fa-pills"></i>
+            <span>Tratamiento de la consulta</span>
         </a>
     </li>
 
@@ -70,22 +48,38 @@
 
     <!-- Heading -->
     <div class="sidebar-heading">
-        Sistema
+        Historial Clínico
     </div>
 
-    <!-- Nav Item - Inventario -->
+    <!-- Nav Item - Antecedentes Alergias -->
     <li class="nav-item">
         <a class="nav-link" href="#">
-            <i class="fas fa-fw fa-boxes"></i>
-            <span>Inventario</span>
+            <i class="fas fa-fw fa-allergies"></i>
+            <span>Antecedentes Alergias</span>
         </a>
     </li>
 
-    <!-- Nav Item - Reportes -->
+    <!-- Nav Item - Antecedentes Lesiones -->
     <li class="nav-item">
         <a class="nav-link" href="#">
-            <i class="fas fa-fw fa-chart-bar"></i>
-            <span>Reportes</span>
+            <i class="fas fa-fw fa-band-aid"></i>
+            <span>Antecedentes Lesiones</span>
+        </a>
+    </li>
+
+    <!-- Nav Item - Antecedentes Patológicos -->
+    <li class="nav-item">
+        <a class="nav-link" href="#">
+            <i class="fas fa-fw fa-virus"></i>
+            <span>Antecedentes Patológicos</span>
+        </a>
+    </li>
+
+    <!-- Nav Item - Historial Alimentación -->
+    <li class="nav-item">
+        <a class="nav-link" href="#">
+            <i class="fas fa-fw fa-bone"></i>
+            <span>Historial Alimentación</span>
         </a>
     </li>
 
