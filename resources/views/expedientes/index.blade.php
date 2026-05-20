@@ -11,13 +11,8 @@
             <!-- Buscador -->
             <div class="row justify-content-center mb-5 mt-3 position-relative">
                 <div class="col-md-8">
-                    <div class="input-group input-group-lg shadow-sm rounded">
-                        <input type="text" id="searchInput" class="form-control border-0 bg-light" placeholder="Buscar expediente por nombre de mascota o cliente..." aria-label="Buscar expediente" aria-describedby="basic-addon2" autocomplete="off">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary px-4" type="button">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
+                    <div class="shadow-sm rounded">
+                        <input type="text" id="searchInput" class="form-control form-control-lg border-0 bg-light rounded" placeholder="Buscar expediente por nombre de mascota o cliente..." aria-label="Buscar expediente" autocomplete="off">
                     </div>
                     
                     <!-- Contenedor de Resultados de Búsqueda -->
