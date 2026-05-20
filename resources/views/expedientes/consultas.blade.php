@@ -35,8 +35,7 @@
                                 <th>Fecha</th>
                                 <th>Peso (kg)</th>
                                 <th>Talla (cm)</th>
-                                <th>Diagnóstico</th>
-                                <th>Tratamiento</th>
+                                <th class="text-center" style="width: 100px;">Acción</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -45,8 +44,11 @@
                                     <td>{{ \Carbon\Carbon::parse($consulta->fecha_consulta)->format('d/m/Y H:i') }}</td>
                                     <td>{{ $consulta->peso ?? '-' }}</td>
                                     <td>{{ $consulta->talla ?? '-' }}</td>
-                                    <td>{{ $consulta->diagnostico ?? 'Sin diagnóstico registrado' }}</td>
-                                    <td>{{ $consulta->tratamiento ?? 'Sin tratamiento registrado' }}</td>
+                                    <td class="text-center">
+                                        <a href="{{ route('expedientes.consulta_detalle', ['mascota' => $mascota->id, 'consulta' => $consulta->id]) }}" class="btn btn-sm btn-primary shadow-sm" title="Ver Detalles">
+                                            <i class="fas fa-eye"></i> Ver
+                                        </a>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

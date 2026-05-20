@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Mascota;
+use App\Models\Consulta;
 
 class ExpedienteController extends Controller
 {
@@ -45,5 +46,18 @@ class ExpedienteController extends Controller
     {
         $mascota->load('dueno', 'consultas.veterinario');
         return view('expedientes.consultas', compact('mascota'));
+    }
+
+    public function consultaDetalle(Mascota $mascota, Consulta $consulta)
+    {
+        // Validar que la consulta pertenezca a la mascota
+        if ($consulta->mascota_id !== $mascota->id) {
+            abort(404);
+        }
+
+        $consulta->load('veterinario');
+        $mascota->load('dueno');
+
+        return view('expedientes.consulta_detalle', compact('mascota', 'consulta'));
     }
 }
