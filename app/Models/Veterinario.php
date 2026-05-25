@@ -14,6 +14,8 @@ class Veterinario extends Model
         'especialidad',
         'cedula_profesional',
         'foto_firma',
+        'telefono',
+        'anio_antiguedad',
     ];
 
     public function user()

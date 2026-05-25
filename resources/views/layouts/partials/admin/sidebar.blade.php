@@ -43,42 +43,18 @@
     </li>
 
     <!-- Nav Item - Gestión de Veterinarios -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseVeterinarios"
-            aria-expanded="true" aria-controls="collapseVeterinarios">
+    <li class="nav-item {{ request()->routeIs('admin.veterinarios.*') ? 'active' : '' }}">
+        <a class="nav-link {{ request()->routeIs('admin.veterinarios.*') ? '' : 'collapsed' }}" href="#" data-toggle="collapse" data-target="#collapseVeterinarios"
+            aria-expanded="{{ request()->routeIs('admin.veterinarios.*') ? 'true' : 'false' }}" aria-controls="collapseVeterinarios">
             <i class="fas fa-fw fa-user-md"></i>
             <span>Veterinarios</span>
         </a>
-        <div id="collapseVeterinarios" class="collapse" aria-labelledby="headingVeterinarios" data-parent="#accordionSidebar">
+        <div id="collapseVeterinarios" class="collapse {{ request()->routeIs('admin.veterinarios.*') ? 'show' : '' }}" aria-labelledby="headingVeterinarios" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="#">Listar veterinarios</a>
-                <a class="collapse-item" href="#">Asignar horarios</a>
+                <a class="collapse-item {{ request()->routeIs('admin.veterinarios.index') ? 'active' : '' }}" href="{{ route('admin.veterinarios.index') }}">Listar veterinarios</a>
+                <a class="collapse-item {{ request()->routeIs('admin.veterinarios.create') ? 'active' : '' }}" href="{{ route('admin.veterinarios.create') }}">Nuevo veterinario</a>
             </div>
         </div>
-    </li>
-
-    <!-- Divider -->
-    <hr class="sidebar-divider">
-
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Sistema
-    </div>
-
-    <!-- Nav Item - Reportes -->
-    <li class="nav-item">
-        <a class="nav-link" href="#">
-            <i class="fas fa-fw fa-chart-bar"></i>
-            <span>Reportes</span>
-        </a>
-    </li>
-
-    <!-- Nav Item - Configuración -->
-    <li class="nav-item">
-        <a class="nav-link" href="#">
-            <i class="fas fa-fw fa-cogs"></i>
-            <span>Configuración</span>
-        </a>
     </li>
 
     <!-- Divider -->

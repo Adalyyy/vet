@@ -33,5 +33,7 @@ Route::middleware("auth")->group(function () {
         Route::put('/usuarios/{usuario}',[App\Http\Controllers\Admin\UserController::class,'update'])->name('admin.users.update');
         Route::get('/usuarios/{usuario}/eliminar',[App\Http\Controllers\Admin\UserController::class,'show'])->name('admin.users.show');
         Route::delete('/usuarios/{usuario}',[App\Http\Controllers\Admin\UserController::class,'destroy'])->name('admin.users.destroy');
+        
+        Route::resource('veterinarios', App\Http\Controllers\Admin\VeterinarioController::class)->names('admin.veterinarios');
     });
 });
