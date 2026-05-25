@@ -40,6 +40,16 @@ class AuthController extends Controller
     }
 
     public function adminHome() {
-        return view('modules/admin/dashboard');
+        $stats = [
+            'veterinarios' => \App\Models\Veterinario::count(),
+            'consultas' => \App\Models\Consulta::count(),
+            'usuarios' => \App\Models\User::count(),
+            'mascotas' => \App\Models\Mascota::count(),
+        ];
+        
+        $ultimasMascotas = \App\Models\Mascota::with('dueno')->orderBy('created_at', 'desc')->take(5)->get();
+        $ultimasConsultas = \App\Models\Consulta::with(['mascota', 'veterinario'])->orderBy('fecha_consulta', 'desc')->take(5)->get();
+
+        return view('modules/admin/dashboard', compact('stats', 'ultimasMascotas', 'ultimasConsultas'));
     }
 }
