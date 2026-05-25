@@ -28,6 +28,7 @@
                             <th>Correo</th>
                             <th>Rol</th>
                             <th>Datos de Veterinario (Si aplica)</th>
+                            <th>Fecha de Registro</th>
                             <th>Fecha de Eliminación</th>
                         </tr>
                     </thead>
@@ -45,16 +46,18 @@
                                 @if($user->veterinario)
                                     <strong>Nombre:</strong> {{ $user->veterinario->nombre_completo }}<br>
                                     <strong>Cédula:</strong> {{ $user->veterinario->cedula_profesional }}<br>
-                                    <strong>Especialidad:</strong> {{ $user->veterinario->especialidad }}
+                                    <strong>Especialidad:</strong> {{ $user->veterinario->especialidad }}<br>
+                                    <strong>Años de Antigüedad:</strong> {{ $user->veterinario->anio_antiguedad ?? 0 }}
                                 @else
                                     <span class="text-secondary"><em>No aplica</em></span>
                                 @endif
                             </td>
+                            <td>{{ $user->created_at->format('d/m/Y H:i A') }}</td>
                             <td>{{ $user->deleted_at->format('d/m/Y H:i A') }}</td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="5" class="text-center">No hay registros eliminados en el historial.</td>
+                            <td colspan="6" class="text-center">No hay registros eliminados en el historial.</td>
                         </tr>
                         @endforelse
                     </tbody>
