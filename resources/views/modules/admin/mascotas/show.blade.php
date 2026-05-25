@@ -6,9 +6,14 @@
 
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800"><i class="fas fa-notes-medical"></i> Historial Clínico: {{ $mascota->nombre }}</h1>
-        <a href="{{ route('admin.mascotas.index') }}" class="btn btn-sm btn-secondary shadow-sm">
-            <i class="fas fa-arrow-left fa-sm text-white-50"></i> Volver al listado
-        </a>
+        <div>
+            <a href="{{ route('admin.mascotas.pdf_historial', $mascota->id) }}" class="btn btn-sm btn-danger shadow-sm mr-2">
+                <i class="fas fa-file-pdf fa-sm text-white-50"></i> Exportar Historial en PDF
+            </a>
+            <a href="{{ route('admin.mascotas.index') }}" class="btn btn-sm btn-secondary shadow-sm">
+                <i class="fas fa-arrow-left fa-sm text-white-50"></i> Volver al listado
+            </a>
+        </div>
     </div>
 
     <div class="row">
@@ -106,8 +111,9 @@
                                 <th width="18%">Veterinario</th>
                                 <th width="10%">Peso</th>
                                 <th width="10%">Talla</th>
-                                <th width="25%">Diagnóstico (Resumen)</th>
-                                <th width="25%">Tratamiento Indicado</th>
+                                <th width="20%">Diagnóstico (Resumen)</th>
+                                <th width="20%">Tratamiento Indicado</th>
+                                <th width="10%">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -119,6 +125,11 @@
                                     <td>{{ $consulta->talla ? $consulta->talla . ' cm' : 'N/A' }}</td>
                                     <td>{{ Str::limit($consulta->diagnostico, 100, '...') }}</td>
                                     <td>{{ Str::limit($consulta->tratamiento, 150, '...') }}</td>
+                                    <td class="text-center">
+                                        <a href="{{ route('admin.mascotas.pdf_consulta', $consulta->id) }}" class="btn btn-sm btn-outline-danger" title="Descargar Consulta en PDF">
+                                            <i class="fas fa-file-pdf"></i>
+                                        </a>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
