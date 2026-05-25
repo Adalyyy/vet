@@ -57,6 +57,14 @@
         </div>
     </li>
 
+    <!-- Nav Item - Padrón de Pacientes -->
+    <li class="nav-item {{ request()->routeIs('admin.mascotas.*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('admin.mascotas.index') }}">
+            <i class="fas fa-fw fa-paw"></i>
+            <span>Padrón de Pacientes</span>
+        </a>
+    </li>
+
     <!-- Nav Item - Historial de Usuarios -->
     <li class="nav-item {{ request()->routeIs('admin.historial_usuarios.*') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('admin.historial_usuarios.index') }}">
