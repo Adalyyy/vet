@@ -17,9 +17,9 @@
         </div>
         <div class="card-body">
             <div class="alert alert-warning">
-                <strong><i class="fas fa-exclamation-triangle"></i> ¡Advertencia!</strong> 
-                Está a punto de eliminar el registro del veterinario <strong>{{ $veterinario->nombre_completo }}</strong>.
-                Esta acción no se puede deshacer.
+                <strong><i class="fas fa-exclamation-triangle"></i> ¡Advertencia!</strong><br>
+                Si elimina el listado de este veterinario (<strong>{{ $veterinario->nombre_completo }}</strong>) tambien eliminara su acceso como usuario.
+                Esta acción moverá el registro al historial y no se podrá deshacer fácilmente.
             </div>
 
             <table class="table table-bordered">

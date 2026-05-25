@@ -20,10 +20,9 @@
         <div class="card-body">
             
             <div class="alert alert-warning">
-                <h5><i class="fas fa-exclamation-triangle"></i> ¡Advertencia!</h5>
-                Estás a punto de eliminar al usuario <strong>{{ $user->name }}</strong>. 
-                Esta acción <strong>no se puede deshacer</strong> y eliminará su cuenta de forma permanente.
-                Si este usuario tiene datos registrados como citas o mascotas en el futuro, no podrás eliminarlo. Su perfil de veterinario (si tiene) se eliminará automáticamente.
+                <strong><i class="fas fa-exclamation-triangle"></i> ¡Advertencia!</strong><br>
+                Si elimina el acceso de este usuario (<strong>{{ $user->email }}</strong>), se eliminara tambien su listado (si aplica).
+                Esta acción moverá el registro al historial y no se podrá deshacer fácilmente.
             </div>
 
             <table class="table table-bordered mt-4">

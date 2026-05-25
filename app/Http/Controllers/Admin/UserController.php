@@ -71,8 +71,13 @@ class UserController extends Controller
         $user = User::findOrFail($id);
 
         try {
+            // Si el usuario es veterinario y tiene perfil, también lo eliminamos (soft delete)
+            if ($user->veterinario) {
+                $user->veterinario->delete();
+            }
+            
             $user->delete();
-            return redirect()->route('admin.users.index')->with('success', 'Usuario eliminado correctamente.');
+            return redirect()->route('admin.users.index')->with('success', 'Usuario y su información asociada eliminados correctamente.');
         } catch (QueryException $e) {
             if ($e->getCode() == "23000") {
                 return redirect()->route('admin.users.index')->with('error', 'No se puede eliminar el usuario porque tiene registros asociados en el sistema.');

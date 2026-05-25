@@ -36,7 +36,7 @@
                             <th>Cédula Profesional</th>
                             <th>Año Antigüedad</th>
                             <th>Especialidad</th>
-                            <th>Usuario (Sistema)</th>
+                            <th>Correo</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>

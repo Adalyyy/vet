@@ -35,5 +35,6 @@ Route::middleware("auth")->group(function () {
         Route::delete('/usuarios/{usuario}',[App\Http\Controllers\Admin\UserController::class,'destroy'])->name('admin.users.destroy');
         
         Route::resource('veterinarios', App\Http\Controllers\Admin\VeterinarioController::class)->names('admin.veterinarios');
+        Route::get('/historial-usuarios', [App\Http\Controllers\Admin\HistorialUsuarioController::class, 'index'])->name('admin.historial_usuarios.index');
     });
 });

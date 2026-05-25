@@ -57,6 +57,14 @@
         </div>
     </li>
 
+    <!-- Nav Item - Historial de Usuarios -->
+    <li class="nav-item {{ request()->routeIs('admin.historial_usuarios.*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('admin.historial_usuarios.index') }}">
+            <i class="fas fa-fw fa-history"></i>
+            <span>Historial de usuarios</span>
+        </a>
+    </li>
+
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
 

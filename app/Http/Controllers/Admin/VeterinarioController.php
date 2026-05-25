@@ -71,8 +71,14 @@ class VeterinarioController extends Controller
     public function destroy($id)
     {
         $veterinario = Veterinario::findOrFail($id);
+        
+        // El usuario también se elimina lógicamente (soft delete)
+        if ($veterinario->user) {
+            $veterinario->user->delete();
+        }
+        
         $veterinario->delete();
 
-        return redirect()->route('admin.veterinarios.index')->with('success', 'Veterinario eliminado correctamente.');
+        return redirect()->route('admin.veterinarios.index')->with('success', 'Veterinario y su acceso como usuario eliminados correctamente.');
     }
 }
