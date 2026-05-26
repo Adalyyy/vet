@@ -33,11 +33,13 @@
                     <div class="col-md-6 mb-3">
                         <label for="nombre_completo" class="font-weight-bold">Nombre Completo <span class="text-danger">*</span></label>
                         <input type="text" class="form-control @error('nombre_completo') is-invalid @enderror" id="nombre_completo" name="nombre_completo" value="{{ old('nombre_completo') }}" required>
+                        @error('nombre_completo') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
                     
                     <div class="col-md-6 mb-3">
                         <label for="telefono" class="font-weight-bold">Teléfono de Contacto <span class="text-danger">*</span></label>
                         <input type="text" class="form-control @error('telefono') is-invalid @enderror" id="telefono" name="telefono" value="{{ old('telefono') }}" required>
+                        @error('telefono') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
                 </div>
 
@@ -45,6 +47,7 @@
                     <div class="col-md-12 mb-3">
                         <label for="direccion" class="font-weight-bold">Dirección Completa <span class="text-danger">*</span></label>
                         <textarea class="form-control @error('direccion') is-invalid @enderror" id="direccion" name="direccion" rows="3" required>{{ old('direccion') }}</textarea>
+                        @error('direccion') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
                 </div>
 
@@ -52,6 +55,7 @@
                     <div class="col-md-12 mb-4">
                         <label for="redes_sociales" class="font-weight-bold">Redes Sociales / Notas Adicionales (Opcional)</label>
                         <input type="text" class="form-control @error('redes_sociales') is-invalid @enderror" id="redes_sociales" name="redes_sociales" value="{{ old('redes_sociales') }}" placeholder="Ej. Facebook: /juan.perez, Instagram: @juanp">
+                        @error('redes_sociales') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
                 </div>
 
@@ -63,34 +67,39 @@
                 <div class="row">
                     <div class="col-md-4 mb-3">
                         <label for="mascota_nombre" class="font-weight-bold">Nombre de la mascota <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="mascota_nombre" name="mascota_nombre" value="{{ old('mascota_nombre') }}" required>
+                        <input type="text" class="form-control @error('mascota_nombre') is-invalid @enderror" id="mascota_nombre" name="mascota_nombre" value="{{ old('mascota_nombre') }}" required>
+                        @error('mascota_nombre') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="mascota_especie" class="font-weight-bold">Especie (Ej. Perro, Gato) <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="mascota_especie" name="mascota_especie" value="{{ old('mascota_especie') }}" required>
+                        <input type="text" class="form-control @error('mascota_especie') is-invalid @enderror" id="mascota_especie" name="mascota_especie" value="{{ old('mascota_especie') }}" required>
+                        @error('mascota_especie') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="mascota_raza" class="font-weight-bold">Raza <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="mascota_raza" name="mascota_raza" value="{{ old('mascota_raza') }}" required>
+                        <input type="text" class="form-control @error('mascota_raza') is-invalid @enderror" id="mascota_raza" name="mascota_raza" value="{{ old('mascota_raza') }}" required>
+                        @error('mascota_raza') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-3 mb-3">
                         <label for="mascota_fecha_nacimiento" class="font-weight-bold">F. Nacimiento / Adopción <span class="text-danger">*</span></label>
-                        <input type="date" class="form-control" id="mascota_fecha_nacimiento" name="mascota_fecha_nacimiento" value="{{ old('mascota_fecha_nacimiento') }}">
+                        <input type="date" class="form-control @error('mascota_fecha_nacimiento') is-invalid @enderror" id="mascota_fecha_nacimiento" name="mascota_fecha_nacimiento" value="{{ old('mascota_fecha_nacimiento') }}" required>
+                        @error('mascota_fecha_nacimiento') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
                     <div class="col-md-3 mb-3">
                         <label for="mascota_edad" class="font-weight-bold">Edad (Meses/Años)</label>
-                        <input type="text" class="form-control" id="mascota_edad" name="mascota_edad" value="{{ old('mascota_edad') }}" placeholder="Ej. 6 meses, 3 años">
+                        <input type="text" class="form-control @error('mascota_edad') is-invalid @enderror" id="mascota_edad" name="mascota_edad" value="{{ old('mascota_edad') }}" placeholder="Ej. 6 meses, 3 años">
+                        @error('mascota_edad') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
                     <div class="col-md-3 mb-3">
                         <label for="mascota_tipo_sangre" class="font-weight-bold">Tipo de Sangre</label>
-                        <input type="text" class="form-control" id="mascota_tipo_sangre" name="mascota_tipo_sangre" value="{{ old('mascota_tipo_sangre') }}">
+                        <input type="text" class="form-control @error('mascota_tipo_sangre') is-invalid @enderror" id="mascota_tipo_sangre" name="mascota_tipo_sangre" value="{{ old('mascota_tipo_sangre') }}">
                     </div>
                     <div class="col-md-3 mb-3">
                         <label for="mascota_comportamiento" class="font-weight-bold">Comportamiento</label>
-                        <input type="text" class="form-control" id="mascota_comportamiento" name="mascota_comportamiento" value="{{ old('mascota_comportamiento') }}">
+                        <input type="text" class="form-control @error('mascota_comportamiento') is-invalid @enderror" id="mascota_comportamiento" name="mascota_comportamiento" value="{{ old('mascota_comportamiento') }}">
                     </div>
                 </div>
 

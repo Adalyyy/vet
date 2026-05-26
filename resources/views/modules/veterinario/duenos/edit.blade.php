@@ -43,11 +43,13 @@
                     <div class="col-md-6 mb-3">
                         <label for="nombre_completo" class="font-weight-bold">Nombre Completo <span class="text-danger">*</span></label>
                         <input type="text" class="form-control @error('nombre_completo') is-invalid @enderror" id="nombre_completo" name="nombre_completo" value="{{ old('nombre_completo', $dueno->nombre_completo) }}" required>
+                        @error('nombre_completo') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
                     
                     <div class="col-md-6 mb-3">
                         <label for="telefono" class="font-weight-bold">Teléfono de Contacto <span class="text-danger">*</span></label>
                         <input type="text" class="form-control @error('telefono') is-invalid @enderror" id="telefono" name="telefono" value="{{ old('telefono', $dueno->telefono) }}" required>
+                        @error('telefono') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
                 </div>
 
@@ -55,6 +57,7 @@
                     <div class="col-md-12 mb-3">
                         <label for="direccion" class="font-weight-bold">Dirección Completa <span class="text-danger">*</span></label>
                         <textarea class="form-control @error('direccion') is-invalid @enderror" id="direccion" name="direccion" rows="3" required>{{ old('direccion', $dueno->direccion) }}</textarea>
+                        @error('direccion') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
                 </div>
 
@@ -62,6 +65,7 @@
                     <div class="col-md-12 mb-4">
                         <label for="redes_sociales" class="font-weight-bold">Redes Sociales / Notas Adicionales (Opcional)</label>
                         <input type="text" class="form-control @error('redes_sociales') is-invalid @enderror" id="redes_sociales" name="redes_sociales" value="{{ old('redes_sociales', $dueno->redes_sociales) }}" placeholder="Ej. Facebook: /juan.perez, Instagram: @juanp">
+                        @error('redes_sociales') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
                 </div>
 

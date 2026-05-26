@@ -38,31 +38,36 @@
 
                     <div class="form-group col-md-6">
                         <label for="nombre_completo">Nombre Completo <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="nombre_completo" name="nombre_completo" value="{{ old('nombre_completo', $veterinario->nombre_completo) }}" required>
+                        <input type="text" class="form-control @error('nombre_completo') is-invalid @enderror" id="nombre_completo" name="nombre_completo" value="{{ old('nombre_completo', $veterinario->nombre_completo) }}" required>
+                        @error('nombre_completo') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="telefono">Número Telefónico <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="telefono" name="telefono" value="{{ old('telefono', $veterinario->telefono) }}" required>
+                        <input type="text" class="form-control @error('telefono') is-invalid @enderror" id="telefono" name="telefono" value="{{ old('telefono', $veterinario->telefono) }}" required>
+                        @error('telefono') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
 
                     <div class="form-group col-md-6">
                         <label for="cedula_profesional">Cédula Profesional <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="cedula_profesional" name="cedula_profesional" value="{{ old('cedula_profesional', $veterinario->cedula_profesional) }}" required>
+                        <input type="text" class="form-control @error('cedula_profesional') is-invalid @enderror" id="cedula_profesional" name="cedula_profesional" value="{{ old('cedula_profesional', $veterinario->cedula_profesional) }}" required>
+                        @error('cedula_profesional') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="anio_antiguedad">Año de Antigüedad <span class="text-danger">*</span></label>
-                        <input type="number" class="form-control" id="anio_antiguedad" name="anio_antiguedad" value="{{ old('anio_antiguedad', $veterinario->anio_antiguedad) }}" min="0" required>
+                        <input type="number" class="form-control @error('anio_antiguedad') is-invalid @enderror" id="anio_antiguedad" name="anio_antiguedad" value="{{ old('anio_antiguedad', $veterinario->anio_antiguedad) }}" min="0" required>
+                        @error('anio_antiguedad') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
 
                     <div class="form-group col-md-6">
                         <label for="especialidad">Especialidad o Rol Principal <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="especialidad" name="especialidad" value="{{ old('especialidad', $veterinario->especialidad) }}" required>
+                        <input type="text" class="form-control @error('especialidad') is-invalid @enderror" id="especialidad" name="especialidad" value="{{ old('especialidad', $veterinario->especialidad) }}" required>
+                        @error('especialidad') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
                 </div>
 
