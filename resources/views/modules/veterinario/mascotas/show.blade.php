@@ -118,12 +118,13 @@
                             <tr>
                                 <th width="10%">Fecha</th>
                                 <th width="15%">Veterinario</th>
-                                <th width="8%">Peso</th>
-                                <th width="8%">Talla</th>
-                                <th width="19%">Diagnóstico (Resumen)</th>
-                                <th width="19%">Tratamiento Indicado</th>
-                                <th width="11%">Estado</th>
-                                <th width="10%">Acciones</th>
+                                <th width="7%">Peso</th>
+                                <th width="7%">Talla</th>
+                                <th width="18%">Diagnóstico (Resumen)</th>
+                                <th width="18%">Tratamiento Indicado</th>
+                                <th width="8%" class="text-center">Sesiones</th>
+                                <th width="8%">Estado</th>
+                                <th width="9%">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -135,6 +136,17 @@
                                     <td>{{ $consulta->talla ? $consulta->talla . ' cm' : 'N/A' }}</td>
                                     <td>{{ Str::limit($consulta->diagnostico, 100, '...') }}</td>
                                     <td>{{ Str::limit($consulta->tratamiento, 150, '...') }}</td>
+                                    @php
+                                        $seguimientos = max(
+                                            substr_count($consulta->diagnostico ?? '', '--- Seguimiento'),
+                                            substr_count($consulta->tratamiento ?? '', '--- Seguimiento'),
+                                            substr_count($consulta->medicamentos ?? '', '--- Seguimiento')
+                                        );
+                                        $sesiones = 1 + $seguimientos;
+                                    @endphp
+                                    <td class="text-center">
+                                        <span class="badge badge-secondary badge-pill">{{ $sesiones }}</span>
+                                    </td>
                                     <td>
                                         @if($consulta->estado == 'en_seguimiento')
                                             <span class="badge badge-warning text-dark"><i class="fas fa-clock"></i> Seguimiento</span>
@@ -148,7 +160,9 @@
                                                 <i class="fas fa-file-pdf"></i>
                                             </a>
                                         @else
-                                            <span class="text-muted small" title="Cierre la consulta para exportar"><i class="fas fa-lock"></i> PDF</span>
+                                            <a href="{{ route('expedientes.consulta_detalle', ['mascota' => $mascota->id, 'consulta' => $consulta->id]) }}" class="btn btn-sm btn-warning text-dark" title="Continuar Seguimiento">
+                                                <i class="fas fa-notes-medical"></i> Seguimiento
+                                            </a>
                                         @endif
                                     </td>
                                 </tr>
