@@ -35,6 +35,14 @@
         </a>
     </li>
 
+    <!-- Nav Item - Mascotas -->
+    <li class="nav-item {{ request()->routeIs('mascotas.*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('mascotas.index') }}">
+            <i class="fas fa-fw fa-dog"></i>
+            <span>Mascotas</span>
+        </a>
+    </li>
+
     <!-- Divider -->
     <hr class="sidebar-divider">
 

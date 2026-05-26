@@ -24,6 +24,8 @@ Route::middleware("auth")->group(function () {
         
         // Rutas de dueños y sus mascotas
         Route::resource('duenos', App\Http\Controllers\DuenoController::class);
+        Route::get('mascotas', [App\Http\Controllers\MascotaController::class, 'index'])->name('mascotas.index');
+        Route::resource('mascotas.antecedentes', App\Http\Controllers\AntecedenteController::class);
         
         // Atender Mascota
         Route::get('atender', [App\Http\Controllers\AtenderMascotaController::class, 'index'])->name('atender.index');
