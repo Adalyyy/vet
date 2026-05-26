@@ -5,14 +5,14 @@
     <title>Historial Clínico - {{ $mascota->nombre }}</title>
     <style>
         body { font-family: Helvetica, Arial, sans-serif; font-size: 12px; color: #333; }
-        .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #4e73df; padding-bottom: 10px; }
-        .header h1 { margin: 0; color: #4e73df; font-size: 24px; }
+        .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #1cc88a; padding-bottom: 10px; }
+        .header h1 { margin: 0; color: #1cc88a; font-size: 24px; }
         .header p { margin: 5px 0 0 0; color: #666; }
         
         .box-container { width: 100%; margin-bottom: 20px; }
         .box { width: 48%; display: inline-block; vertical-align: top; }
         
-        .section-title { font-size: 14px; font-weight: bold; background-color: #eaecf4; color: #4e73df; padding: 5px 10px; margin-bottom: 10px; }
+        .section-title { font-size: 14px; font-weight: bold; background-color: #eaecf4; color: #1cc88a; padding: 5px 10px; margin-bottom: 10px; }
         
         .data-list { list-style: none; padding: 0; margin: 0; }
         .data-list li { margin-bottom: 5px; }
@@ -20,9 +20,12 @@
         
         table { width: 100%; border-collapse: collapse; margin-top: 10px; }
         th, td { border: 1px solid #d1d3e2; padding: 8px; text-align: left; vertical-align: top; }
-        th { background-color: #eaecf4; color: #4e73df; font-weight: bold; }
+        th { background-color: #eaecf4; color: #1cc88a; font-weight: bold; }
         
         .text-center { text-align: center; }
+
+        .footer { margin-top: 50px; text-align: center; page-break-inside: avoid; }
+        .signature-line { border-top: 1px solid #333; width: 250px; margin: 0 auto; padding-top: 5px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -97,5 +100,24 @@
             </tbody>
         </table>
     @endif
+
+    <div class="footer">
+        <br><br><br>
+        @php
+            $veterinarioFirmante = null;
+            if(auth()->check()){
+                $veterinarioFirmante = \App\Models\Veterinario::where('usuario_id', auth()->id())->first();
+            }
+            if(!$veterinarioFirmante && $mascota->consultas->isNotEmpty()){
+                $veterinarioFirmante = $mascota->consultas->sortByDesc('fecha_consulta')->first()->veterinario;
+            }
+        @endphp
+
+        <div class="signature-line">
+            Firma del Médico Veterinario<br>
+            {{ $veterinarioFirmante->nombre_completo ?? '_______________________' }}<br>
+            <small style="font-weight: normal; color: #777;">Cédula Prof: {{ $veterinarioFirmante->cedula_profesional ?? '_________________' }}</small>
+        </div>
+    </div>
 </body>
 </html>

@@ -36,7 +36,26 @@ class AuthController extends Controller
     }
 
     public function home() {
-        return view('modules/dashboard/home');
+        $stats = [
+            'pacientes' => \App\Models\Mascota::where('activo', true)->count(),
+            'consultas_hoy' => \App\Models\Consulta::whereDate('fecha_consulta', today())->count(),
+            'propietarios' => \App\Models\Dueno::count(),
+            'citas_pendientes' => \App\Models\Cita::where('estado', 'pendiente')->count(),
+        ];
+
+        $proximasCitas = \App\Models\Cita::with(['mascota.dueno', 'veterinario'])
+            ->where('estado', 'pendiente')
+            ->whereDate('fecha_hora', '>=', today())
+            ->orderBy('fecha_hora', 'asc')
+            ->take(5)
+            ->get();
+
+        $consultasRecientes = \App\Models\Consulta::with(['mascota', 'veterinario'])
+            ->orderBy('fecha_consulta', 'desc')
+            ->take(5)
+            ->get();
+
+        return view('modules.dashboard.home', compact('stats', 'proximasCitas', 'consultasRecientes'));
     }
 
     public function adminHome() {
