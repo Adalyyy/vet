@@ -9,8 +9,8 @@
         <i class="fas fa-clipboard-list text-primary"></i> Antecedentes Clínicos
     </h1>
     <div>
-        <a href="{{ route('expedientes.consultas', $mascota->id) }}" class="btn btn-sm btn-info shadow-sm mr-2">
-            <i class="fas fa-notes-medical fa-sm text-white-50"></i> Ir al Expediente
+        <a href="{{ route('mascotas.show', $mascota->id) }}" class="btn btn-sm btn-info shadow-sm mr-2">
+            <i class="fas fa-notes-medical fa-sm text-white-50"></i> Ver Expediente
         </a>
         <a href="{{ route('mascotas.index') }}" class="btn btn-sm btn-secondary shadow-sm">
             <i class="fas fa-arrow-left fa-sm text-white-50"></i> Volver a Mascotas
