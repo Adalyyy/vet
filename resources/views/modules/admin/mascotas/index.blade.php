@@ -32,18 +32,9 @@
                             <td>{{ $mascota->dueno->nombre_completo ?? 'N/A' }}</td>
                             <td>{{ $mascota->created_at->format('d/m/Y') }}</td>
                             <td>
-                                <div class="dropdown no-arrow">
-                                    <a class="dropdown-toggle btn btn-sm btn-info" href="#" role="button" id="dropdownMenuLink{{$mascota->id}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Más info <i class="fas fa-chevron-down fa-sm fa-fw text-white-50"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink{{$mascota->id}}">
-                                        <div class="dropdown-header">Opciones de paciente:</div>
-                                        <a class="dropdown-item" href="{{ route('admin.mascotas.show', $mascota->id) }}">
-                                            <i class="fas fa-notes-medical fa-sm fa-fw mr-2 text-gray-400"></i>
-                                            Ver Historial Clínico
-                                        </a>
-                                    </div>
-                                </div>
+                                <a href="{{ route('admin.mascotas.show', $mascota->id) }}" class="btn btn-sm btn-info" title="Ver Historial Clínico">
+                                    <i class="fas fa-notes-medical"></i> Expediente
+                                </a>
                             </td>
                         </tr>
                         @empty

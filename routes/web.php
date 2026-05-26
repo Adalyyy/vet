@@ -27,6 +27,9 @@ Route::middleware("auth")->group(function () {
         // Rutas de dueños y sus mascotas
         Route::resource('duenos', App\Http\Controllers\DuenoController::class);
         Route::get('mascotas', [App\Http\Controllers\MascotaController::class, 'index'])->name('mascotas.index');
+        Route::get('mascotas/{mascota}', [App\Http\Controllers\MascotaController::class, 'show'])->name('mascotas.show');
+        Route::get('mascotas/{mascota}/pdf-historial', [App\Http\Controllers\MascotaController::class, 'exportHistorialPdf'])->name('mascotas.pdf_historial');
+        Route::get('consultas/{consulta}/pdf', [App\Http\Controllers\MascotaController::class, 'exportConsultaPdf'])->name('mascotas.pdf_consulta');
         Route::resource('mascotas.antecedentes', App\Http\Controllers\AntecedenteController::class);
         
         // Atender Mascota
