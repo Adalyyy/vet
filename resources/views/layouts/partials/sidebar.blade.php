@@ -40,22 +40,14 @@
 
     <!-- Heading -->
     <div class="sidebar-heading">
-        Detalles Médicos
+        Pacientes
     </div>
 
-    <!-- Nav Item - Diagnóstico -->
-    <li class="nav-item {{ request()->routeIs('expedientes.diagnostico') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ (isset($mascota) && isset($consulta)) ? route('expedientes.diagnostico', ['mascota' => $mascota->id, 'consulta' => $consulta->id]) : '#' }}">
-            <i class="fas fa-fw fa-stethoscope"></i>
-            <span>Diagnóstico de la consulta</span>
-        </a>
-    </li>
-
-    <!-- Nav Item - Tratamiento -->
-    <li class="nav-item">
-        <a class="nav-link" href="#">
-            <i class="fas fa-fw fa-pills"></i>
-            <span>Tratamiento de la consulta</span>
+    <!-- Nav Item - Atender Mascota -->
+    <li class="nav-item {{ request()->routeIs('atender.*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('atender.index') }}">
+            <i class="fas fa-fw fa-notes-medical"></i>
+            <span>Atender Mascota</span>
         </a>
     </li>
 
@@ -64,38 +56,22 @@
 
     <!-- Heading -->
     <div class="sidebar-heading">
-        Historial Clínico
+        Gestión Clínica
     </div>
 
-    <!-- Nav Item - Antecedentes Alergias -->
+    <!-- Agenda / Citas -->
     <li class="nav-item">
         <a class="nav-link" href="#">
-            <i class="fas fa-fw fa-allergies"></i>
-            <span>Antecedentes Alergias</span>
+            <i class="fas fa-fw fa-calendar-alt"></i>
+            <span>Agenda / Citas</span>
         </a>
     </li>
 
-    <!-- Nav Item - Antecedentes Lesiones -->
+    <!-- Configuración -->
     <li class="nav-item">
         <a class="nav-link" href="#">
-            <i class="fas fa-fw fa-band-aid"></i>
-            <span>Antecedentes Lesiones</span>
-        </a>
-    </li>
-
-    <!-- Nav Item - Antecedentes Patológicos -->
-    <li class="nav-item">
-        <a class="nav-link" href="#">
-            <i class="fas fa-fw fa-virus"></i>
-            <span>Antecedentes Patológicos</span>
-        </a>
-    </li>
-
-    <!-- Nav Item - Historial Alimentación -->
-    <li class="nav-item">
-        <a class="nav-link" href="#">
-            <i class="fas fa-fw fa-bone"></i>
-            <span>Historial Alimentación</span>
+            <i class="fas fa-fw fa-cogs"></i>
+            <span>Configuración</span>
         </a>
     </li>
 

@@ -24,6 +24,9 @@ Route::middleware("auth")->group(function () {
         
         // Rutas de dueños y sus mascotas
         Route::resource('duenos', App\Http\Controllers\DuenoController::class);
+        
+        // Atender Mascota
+        Route::get('atender', [App\Http\Controllers\AtenderMascotaController::class, 'index'])->name('atender.index');
         Route::post('duenos/{dueno}/mascotas', [App\Http\Controllers\DuenoController::class, 'storeMascota'])->name('duenos.mascotas.store');
         Route::put('duenos/mascotas/{mascota}', [App\Http\Controllers\DuenoController::class, 'updateMascota'])->name('duenos.mascotas.update');
         Route::patch('duenos/mascotas/{mascota}/baja', [App\Http\Controllers\DuenoController::class, 'bajaMascota'])->name('duenos.mascotas.baja');
