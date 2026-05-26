@@ -8,40 +8,6 @@ use App\Models\Consulta;
 
 class ExpedienteController extends Controller
 {
-    public function index()
-    {
-        return view('expedientes.index');
-    }
-
-    public function search(Request $request)
-    {
-        $query = $request->input('query');
-
-        if (empty($query)) {
-            return response()->json([]);
-        }
-
-        // Scout search with relationship fallback for Database engine
-        $resultados = Mascota::search($query)->query(function ($builder) use ($query) {
-            $builder->orWhereHas('dueno', function ($q) use ($query) {
-                $q->where('nombre_completo', 'like', "%{$query}%");
-            });
-        })->take(10)->get();
-
-        // Transform results to a format for JS
-        $data = $resultados->map(function ($mascota) {
-            return [
-                'id' => $mascota->id,
-                'nombre' => $mascota->nombre,
-                'especie' => $mascota->especie,
-                'dueno_nombre' => $mascota->dueno ? $mascota->dueno->nombre_completo : 'Sin dueño',
-                'url' => '#' // Placeholder para futuras rutas de ver expediente
-            ];
-        });
-
-        return response()->json($data);
-    }
-
     public function consultas(Mascota $mascota)
     {
         $mascota->load('dueno', 'consultas.veterinario');
@@ -62,6 +28,55 @@ class ExpedienteController extends Controller
         return view('expedientes.consulta_detalle', compact('mascota', 'consulta', 'showSidebar'));
     }
 
+    public function updateConsulta(Request $request, Mascota $mascota, Consulta $consulta)
+    {
+        // Validar que la consulta pertenezca a la mascota
+        if ($consulta->mascota_id !== $mascota->id) {
+            abort(404);
+        }
+
+        $request->validate([
+            'diagnostico_nuevo' => 'nullable|string',
+            'tratamiento_nuevo' => 'nullable|string',
+            'medicamentos_nuevo' => 'nullable|string',
+            'estado' => 'required|in:cerrada,en_seguimiento',
+        ]);
+
+        $fecha = now()->format('d/m/Y H:i');
+        
+        $diagnostico = $consulta->diagnostico;
+        if ($request->filled('diagnostico_nuevo')) {
+            $diagnostico .= "\n\n--- Seguimiento ({$fecha}) ---\n" . $request->diagnostico_nuevo;
+        }
+
+        $tratamiento = $consulta->tratamiento;
+        if ($request->filled('tratamiento_nuevo')) {
+            if (empty($tratamiento)) {
+                $tratamiento = "--- Seguimiento ({$fecha}) ---\n" . $request->tratamiento_nuevo;
+            } else {
+                $tratamiento .= "\n\n--- Seguimiento ({$fecha}) ---\n" . $request->tratamiento_nuevo;
+            }
+        }
+
+        $medicamentos = $consulta->medicamentos;
+        if ($request->filled('medicamentos_nuevo')) {
+            if (empty($medicamentos)) {
+                $medicamentos = "--- Seguimiento ({$fecha}) ---\n" . $request->medicamentos_nuevo;
+            } else {
+                $medicamentos .= "\n\n--- Seguimiento ({$fecha}) ---\n" . $request->medicamentos_nuevo;
+            }
+        }
+
+        $consulta->update([
+            'diagnostico' => $diagnostico,
+            'tratamiento' => $tratamiento,
+            'medicamentos' => $medicamentos,
+            'estado' => $request->estado,
+        ]);
+
+        return redirect()->back()->with('success', 'Seguimiento registrado exitosamente.');
+    }
+
     public function diagnostico(Mascota $mascota, Consulta $consulta)
     {
         // Validar que la consulta pertenezca a la mascota
@@ -76,7 +91,9 @@ class ExpedienteController extends Controller
 
     public function createConsulta(Mascota $mascota)
     {
-        $mascota->load('antecedentes');
+        $mascota->load(['antecedentes', 'consultas' => function($query) {
+            $query->orderBy('fecha_consulta', 'desc');
+        }]);
         $showSidebar = true;
         return view('expedientes.consultas_create', compact('mascota', 'showSidebar'));
     }

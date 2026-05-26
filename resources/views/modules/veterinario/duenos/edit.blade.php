@@ -105,7 +105,7 @@
                             <td>{{ $mascota->fecha_nacimiento ?? 'N/A' }}</td>
                             <td>{{ $mascota->es_adoptado ? 'Sí' : 'No' }}</td>
                             <td>
-                                <a href="{{ route('expedientes.consultas', $mascota->id) }}" class="btn btn-sm btn-info" title="Ver Expediente Médico"><i class="fas fa-folder-open"></i></a>
+                                <a href="{{ route('mascotas.show', $mascota->id) }}" class="btn btn-sm btn-info" title="Historial Clínico"><i class="fas fa-folder-open"></i></a>
                                 <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editarMascotaModal{{ $mascota->id }}" title="Editar Mascota"><i class="fas fa-edit"></i></button>
                                 <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#bajaMascotaModal{{ $mascota->id }}" title="Dar de Baja (Eliminar)"><i class="fas fa-trash"></i></button>
                             </td>

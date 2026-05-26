@@ -8,9 +8,6 @@
         <i class="fas fa-stethoscope text-primary"></i> Nueva Consulta Médica
     </h1>
     <div>
-        <a href="{{ route('expedientes.consultas', $mascota->id) }}" class="btn btn-sm btn-info shadow-sm mr-2">
-            <i class="fas fa-history fa-sm text-white-50"></i> Ver Historial de Consultas
-        </a>
         <a href="{{ route('atender.index') }}" class="btn btn-sm btn-secondary shadow-sm">
             <i class="fas fa-arrow-left fa-sm text-white-50"></i> Volver al Directorio
         </a>
@@ -55,8 +52,11 @@
                 </div>
                 
                 <div class="mt-4 text-center">
-                    <button type="button" class="btn btn-outline-warning btn-sm btn-block" data-toggle="modal" data-target="#antecedentesModal">
+                    <button type="button" class="btn btn-outline-warning btn-sm btn-block mb-2" data-toggle="modal" data-target="#antecedentesModal">
                         <i class="fas fa-clipboard-list mr-1"></i> Revisar Antecedentes
+                    </button>
+                    <button type="button" class="btn btn-outline-info btn-sm btn-block" data-toggle="modal" data-target="#carnetModal">
+                        <i class="fas fa-history mr-1"></i> Ver Carnet de Consultas
                     </button>
                 </div>
             </div>
@@ -191,6 +191,67 @@
             <div class="modal-footer bg-white">
                 <a href="{{ route('mascotas.antecedentes.index', $mascota->id) }}" class="btn btn-outline-primary" target="_blank">
                     <i class="fas fa-external-link-alt mr-1"></i> Ir a Gestión Completa
+                </a>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Carnet de Consultas Modal -->
+<div class="modal fade" id="carnetModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content shadow border-0">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title font-weight-bold">
+                    <i class="fas fa-history mr-2"></i>Carnet de Consultas de {{ $mascota->nombre }}
+                </h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body bg-light">
+                @if($mascota->consultas->isEmpty())
+                    <div class="alert alert-info mb-0 text-center">
+                        <i class="fas fa-info-circle mr-2"></i> No hay consultas previas para este paciente.
+                    </div>
+                @else
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover mb-0 bg-white">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th width="20%">Fecha</th>
+                                    <th>Resumen de Diagnóstico</th>
+                                    <th width="15%">Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($mascota->consultas as $consulta)
+                                    <tr>
+                                        <td class="align-middle">
+                                            {{ \Carbon\Carbon::parse($consulta->fecha_consulta)->format('d/m/Y') }}<br>
+                                            <small class="text-muted">{{ \Carbon\Carbon::parse($consulta->fecha_consulta)->format('H:i') }}</small>
+                                        </td>
+                                        <td class="align-middle text-gray-800">
+                                            {{ Str::limit($consulta->diagnostico, 80, '...') }}
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            @if($consulta->estado == 'en_seguimiento')
+                                                <span class="badge badge-warning text-dark px-2 py-1"><i class="fas fa-clock"></i> Abierta</span>
+                                            @else
+                                                <span class="badge badge-success px-2 py-1"><i class="fas fa-check"></i> Cerrada</span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @endif
+            </div>
+            <div class="modal-footer bg-white">
+                <a href="{{ route('expedientes.consultas', $mascota->id) }}" class="btn btn-outline-info" target="_blank">
+                    <i class="fas fa-external-link-alt mr-1"></i> Ver Carnet Completo
                 </a>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>

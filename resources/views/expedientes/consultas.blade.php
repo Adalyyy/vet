@@ -6,8 +6,8 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
             <h6 class="m-0 font-weight-bold text-primary">Historial de Consultas: {{ $mascota->nombre }}</h6>
-            <a href="{{ route('expedientes.index') }}" class="btn btn-sm btn-secondary shadow-sm">
-                <i class="fas fa-arrow-left fa-sm text-white-50"></i> Volver a Expedientes
+            <a href="{{ route('atender.index') }}" class="btn btn-sm btn-secondary shadow-sm">
+                <i class="fas fa-arrow-left fa-sm text-white-50"></i> Volver a Atender
             </a>
         </div>
         <div class="card-body">

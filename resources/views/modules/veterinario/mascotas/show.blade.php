@@ -94,6 +94,15 @@
         </div>
     </div>
 
+    <!-- Botón Nueva Consulta -->
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <a href="{{ route('expedientes.consultas.create', $mascota->id) }}" class="btn btn-info btn-lg shadow-sm px-4">
+                <i class="fas fa-plus fa-fw mr-2"></i> Nueva Consulta
+            </a>
+        </div>
+    </div>
+
     <!-- Historial de tratamientos resumido -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">

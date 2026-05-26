@@ -43,9 +43,99 @@
                                 <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Talla</div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $consulta->talla ?? '--' }} <small>cm</small></div>
                             </div>
+                    </div>
+
+                    <!-- Datos de la Consulta Pasada -->
+                    <div class="mb-4">
+                        <h6 class="font-weight-bold text-gray-800 border-bottom pb-2">Diagnóstico / Evaluación Clínica</h6>
+                        <div class="p-3 bg-white border rounded text-dark">
+                            {!! nl2br(e($consulta->diagnostico)) !!}
                         </div>
                     </div>
 
+                    @if($consulta->tratamiento)
+                        <div class="mb-4">
+                            <h6 class="font-weight-bold text-gray-800 border-bottom pb-2">Tratamiento e Indicaciones</h6>
+                            <div class="p-3 bg-white border rounded text-dark">
+                                {!! nl2br(e($consulta->tratamiento)) !!}
+                            </div>
+                        </div>
+                    @endif
+
+                    @if($consulta->medicamentos)
+                        <div class="mb-4">
+                            <h6 class="font-weight-bold text-gray-800 border-bottom pb-2">Medicamentos (Receta)</h6>
+                            <div class="p-3 bg-white border rounded text-dark">
+                                {!! nl2br(e($consulta->medicamentos)) !!}
+                            </div>
+                        </div>
+                    @endif
+
+                    @if(session('success'))
+                        <div class="alert alert-success mt-3 shadow-sm">
+                            <i class="fas fa-check-circle mr-2"></i>{{ session('success') }}
+                        </div>
+                    @endif
+
+                    @if($consulta->estado == 'en_seguimiento')
+                        <div class="mt-5 border-top pt-4">
+                            <h5 class="text-warning font-weight-bold mb-3"><i class="fas fa-notes-medical mr-2 text-warning"></i>Agregar Seguimiento a esta Consulta</h5>
+                            <p class="text-muted small">Al guardar, esta información se añadirá al final del historial de esta consulta para darle continuidad.</p>
+                            
+                            @if($errors->any())
+                                <div class="alert alert-danger shadow-sm">
+                                    <ul class="mb-0">
+                                        @foreach($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                            
+                            <form action="{{ route('expedientes.consultas.update', ['mascota' => $mascota->id, 'consulta' => $consulta->id]) }}" method="POST">
+                                @csrf
+                                @method('PUT')
+                                
+                                <div class="form-group">
+                                    <label class="font-weight-bold text-gray-700">Nuevo Diagnóstico / Notas de Seguimiento</label>
+                                    <textarea name="diagnostico_nuevo" class="form-control" rows="3" placeholder="Describe la evolución del paciente..."></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="font-weight-bold text-gray-700">Nuevo Tratamiento / Indicaciones Adicionales</label>
+                                    <textarea name="tratamiento_nuevo" class="form-control" rows="2" placeholder="Nuevas recomendaciones (si aplica)..."></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="font-weight-bold text-gray-700">Nuevos Medicamentos</label>
+                                    <textarea name="medicamentos_nuevo" class="form-control" rows="2" placeholder="Medicamentos adicionales (si aplica)..."></textarea>
+                                </div>
+
+                                <div class="form-group border-top pt-3 mt-4 bg-light p-3 rounded">
+                                    <label class="font-weight-bold text-gray-700 d-block mb-3">¿Cerrar Consulta o Mantener en Seguimiento?</label>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="estadoCerrada" name="estado" class="custom-control-input" value="cerrada">
+                                        <label class="custom-control-label font-weight-bold text-success" for="estadoCerrada"><i class="fas fa-check-circle"></i> Completar y Cerrar Consulta</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="estadoSeguimiento" name="estado" class="custom-control-input" value="en_seguimiento" checked>
+                                        <label class="custom-control-label font-weight-bold text-warning" for="estadoSeguimiento"><i class="fas fa-clock"></i> Mantener en Seguimiento</label>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4 text-right">
+                                    <button type="submit" class="btn btn-warning btn-lg shadow-sm font-weight-bold text-dark">
+                                        <i class="fas fa-save mr-2"></i> Guardar Seguimiento
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    @else
+                        <div class="mt-4 alert alert-success text-center shadow-sm">
+                            <i class="fas fa-check-circle fa-2x mb-2 d-block"></i>
+                            <strong>Esta consulta ha sido cerrada y archivada de manera definitiva.</strong>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

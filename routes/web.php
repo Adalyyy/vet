@@ -15,13 +15,12 @@ Route::middleware("auth")->group(function () {
     Route::middleware('role:veterinario')->group(function () {
         Route::get('/home',[AuthController::class,'home'])->name('home');
         
-        // Rutas expedientes
-        Route::get('/expedientes', [App\Http\Controllers\ExpedienteController::class, 'index'])->name('expedientes.index');
-        Route::get('/expedientes/buscar', [App\Http\Controllers\ExpedienteController::class, 'search'])->name('expedientes.search');
+        // Atender Mascota / Consultas
         Route::get('/expedientes/{mascota}/consultas', [App\Http\Controllers\ExpedienteController::class, 'consultas'])->name('expedientes.consultas');
         Route::get('/expedientes/{mascota}/consultas/create', [App\Http\Controllers\ExpedienteController::class, 'createConsulta'])->name('expedientes.consultas.create');
         Route::post('/expedientes/{mascota}/consultas', [App\Http\Controllers\ExpedienteController::class, 'storeConsulta'])->name('expedientes.consultas.store');
         Route::get('/expedientes/{mascota}/consultas/{consulta}', [App\Http\Controllers\ExpedienteController::class, 'consultaDetalle'])->name('expedientes.consulta_detalle');
+        Route::put('/expedientes/{mascota}/consultas/{consulta}', [App\Http\Controllers\ExpedienteController::class, 'updateConsulta'])->name('expedientes.consultas.update');
         Route::get('/expedientes/{mascota}/consultas/{consulta}/diagnostico', [App\Http\Controllers\ExpedienteController::class, 'diagnostico'])->name('expedientes.diagnostico');
         
         // Rutas de dueños y sus mascotas
