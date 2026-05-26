@@ -29,7 +29,7 @@ class AtenderMascotaController extends Controller
             });
         }
 
-        $duenos = $query->paginate(10);
+        $duenos = $query->paginate(3);
 
         return view('modules.veterinario.atender.index', compact('duenos', 'search'));
     }

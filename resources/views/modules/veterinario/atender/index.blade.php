@@ -22,15 +22,15 @@
             <h6 class="m-0 font-weight-bold text-primary">Directorio Clínico de Pacientes Activos</h6>
             
             <form action="{{ route('atender.index') }}" method="GET" class="form-inline">
-                <div class="input-group input-group-sm">
+                <div class="input-group" style="min-width: 350px;">
                     <input type="text" class="form-control" name="search" placeholder="Buscar mascota o dueño..." value="{{ $search ?? '' }}">
                     <div class="input-group-append">
                         <button class="btn btn-primary" type="submit">
-                            <i class="fas fa-search fa-sm"></i>
+                            <i class="fas fa-search"></i>
                         </button>
                         @if(!empty($search))
                             <a href="{{ route('atender.index') }}" class="btn btn-secondary">
-                                <i class="fas fa-times fa-sm"></i>
+                                <i class="fas fa-times"></i>
                             </a>
                         @endif
                     </div>
