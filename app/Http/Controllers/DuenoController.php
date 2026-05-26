@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Dueno;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class DuenoController extends Controller
 {
@@ -102,6 +103,81 @@ class DuenoController extends Controller
         ]);
 
         return redirect()->route('duenos.edit', $dueno->id)->with('success', 'Mascota registrada exitosamente y vinculada al propietario.');
+    }
+
+    public function updateMascota(Request $request, \App\Models\Mascota $mascota)
+    {
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'especie' => 'required|string|max:255',
+            'raza' => 'required|string|max:255',
+            'fecha_nacimiento' => 'required|date',
+            'edad' => 'nullable|string|max:100',
+            'tipo_sangre' => 'nullable|string|max:100',
+        ]);
+
+        $mascota->update([
+            'nombre' => $request->nombre,
+            'especie' => $request->especie,
+            'raza' => $request->raza,
+            'fecha_nacimiento' => $request->fecha_nacimiento,
+            'edad' => $request->edad,
+            'tipo_sangre' => $request->tipo_sangre,
+            'comportamiento' => $request->comportamiento,
+            'es_adoptado' => $request->has('es_adoptado') ? true : false,
+        ]);
+
+        return redirect()->route('duenos.edit', $mascota->dueno_id)->with('success', 'Datos de la mascota actualizados exitosamente.');
+    }
+
+    public function bajaMascota(Request $request, \App\Models\Mascota $mascota)
+    {
+        $request->validate([
+            'motivo' => 'required|string',
+            'motivo_otro' => 'nullable|string'
+        ]);
+
+        $motivoFinal = $request->motivo;
+        if ($request->motivo === 'Otro' && $request->filled('motivo_otro')) {
+            $motivoFinal = 'Otro: ' . $request->motivo_otro;
+        }
+
+        $mascota->update([
+            'activo' => false,
+            'motivo_baja' => $motivoFinal
+        ]);
+
+        $mensaje = 'Mascota dada de baja exitosamente.';
+        if ($request->motivo === 'Fallecimiento') {
+            $mensaje = 'Lamentamos mucho la pérdida de ' . $mascota->nombre . '. Un gran compañero que descansará en paz. Sus registros han sido archivados.';
+        }
+
+        return redirect()->route('duenos.edit', $mascota->dueno_id)->with('success', $mensaje);
+    }
+
+    public function pdfHistorico(Request $request, Dueno $dueno)
+    {
+        // Cargar las mascotas activas con sus consultas si se requiere
+        $dueno->load(['mascotas' => function ($query) {
+            $query->orderBy('activo', 'desc')->orderBy('created_at', 'desc');
+        }]);
+
+        if ($request->has('incluir_tratamientos')) {
+            $dueno->load(['mascotas.consultas' => function($q) {
+                $q->orderBy('fecha_consulta', 'desc');
+            }]);
+        } else {
+            // Solo cargamos fechas y titulos/diagnosticos basicos sin tratamiento
+            $dueno->load(['mascotas.consultas' => function($q) {
+                $q->select('id', 'mascota_id', 'fecha_consulta', 'diagnostico')->orderBy('fecha_consulta', 'desc');
+            }]);
+        }
+
+        $incluirTratamientos = $request->has('incluir_tratamientos');
+
+        $pdf = Pdf::loadView('modules.veterinario.duenos.pdf_historico', compact('dueno', 'incluirTratamientos'));
+        
+        return $pdf->stream('historico_propietario_' . time() . '.pdf');
     }
 
     public function destroy(Dueno $dueno)

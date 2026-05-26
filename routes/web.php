@@ -25,6 +25,9 @@ Route::middleware("auth")->group(function () {
         // Rutas de dueños y sus mascotas
         Route::resource('duenos', App\Http\Controllers\DuenoController::class);
         Route::post('duenos/{dueno}/mascotas', [App\Http\Controllers\DuenoController::class, 'storeMascota'])->name('duenos.mascotas.store');
+        Route::put('duenos/mascotas/{mascota}', [App\Http\Controllers\DuenoController::class, 'updateMascota'])->name('duenos.mascotas.update');
+        Route::patch('duenos/mascotas/{mascota}/baja', [App\Http\Controllers\DuenoController::class, 'bajaMascota'])->name('duenos.mascotas.baja');
+        Route::get('duenos/{dueno}/pdf-historico', [App\Http\Controllers\DuenoController::class, 'pdfHistorico'])->name('duenos.pdf_historico');
     });
 
     // Rutas administrador

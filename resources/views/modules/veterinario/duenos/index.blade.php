@@ -43,6 +43,7 @@
                             <th>Dirección</th>
                             <th>Redes Sociales</th>
                             <th>Mascotas Reg.</th>
+                            <th>Histórico</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -55,6 +56,11 @@
                             <td>{{ $dueno->redes_sociales ?? 'N/A' }}</td>
                             <td class="text-center">
                                 <span class="badge badge-info">{{ $dueno->mascotas_count }}</span>
+                            </td>
+                            <td class="text-center">
+                                <button class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#historicoModal{{ $dueno->id }}" title="Ver Histórico Completo">
+                                    <i class="fas fa-history"></i> Ver
+                                </button>
                             </td>
                             <td>
                                 <a href="{{ route('duenos.edit', $dueno->id) }}" class="btn btn-sm btn-warning btn-circle" title="Editar">
@@ -69,9 +75,77 @@
                                 </form>
                             </td>
                         </tr>
+
+                        <!-- Modal Histórico -->
+                        <div class="modal fade" id="historicoModal{{ $dueno->id }}" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-secondary text-white">
+                                        <h5 class="modal-title"><i class="fas fa-history"></i> Histórico Completo: {{ $dueno->nombre_completo }}</h5>
+                                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h6 class="font-weight-bold border-bottom pb-2 text-primary">Datos del Propietario (Solo Lectura)</h6>
+                                        <div class="row mb-4">
+                                            <div class="col-md-6"><strong>Nombre:</strong> {{ $dueno->nombre_completo }}</div>
+                                            <div class="col-md-6"><strong>Teléfono:</strong> {{ $dueno->telefono }}</div>
+                                            <div class="col-md-12 mt-2"><strong>Dirección:</strong> {{ $dueno->direccion }}</div>
+                                            <div class="col-md-12 mt-2"><strong>Redes/Notas:</strong> {{ $dueno->redes_sociales ?? 'N/A' }}</div>
+                                        </div>
+
+                                        <h6 class="font-weight-bold border-bottom pb-2 text-success"><i class="fas fa-check-circle"></i> Mascotas Activas</h6>
+                                        <ul class="list-group mb-4">
+                                            @forelse ($dueno->mascotas->where('activo', true) as $mascota)
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        <strong>{{ $mascota->nombre }}</strong> ({{ $mascota->especie }} / {{ $mascota->raza }})
+                                                    </div>
+                                                    <span class="badge badge-success badge-pill">Activo</span>
+                                                </li>
+                                            @empty
+                                                <li class="list-group-item text-muted">No tiene mascotas activas.</li>
+                                            @endforelse
+                                        </ul>
+
+                                        <h6 class="font-weight-bold border-bottom pb-2 text-danger"><i class="fas fa-times-circle"></i> Mascotas Inactivas (Histórico)</h6>
+                                        <ul class="list-group">
+                                            @forelse ($dueno->mascotas->where('activo', false) as $mascota)
+                                                <li class="list-group-item bg-light">
+                                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                                        <strong>{{ $mascota->nombre }}</strong>
+                                                        <span class="badge badge-danger badge-pill">Inactivo</span>
+                                                    </div>
+                                                    <div class="text-sm">
+                                                        <span><strong>Especie/Raza:</strong> {{ $mascota->especie }} / {{ $mascota->raza }}</span><br>
+                                                        <span><strong>Edad:</strong> {{ $mascota->edad ?? 'N/A' }}</span><br>
+                                                        <span><strong>Ingreso:</strong> {{ $mascota->created_at->format('d/m/Y') }} | <strong>Baja:</strong> {{ $mascota->updated_at->format('d/m/Y') }}</span><br>
+                                                        <span class="text-danger mt-1 d-block"><strong>Motivo de baja:</strong> {{ $mascota->motivo_baja }}</span>
+                                                    </div>
+                                                </li>
+                                            @empty
+                                                <li class="list-group-item text-muted">No tiene mascotas inactivas.</li>
+                                            @endforelse
+                                        </ul>
+                                    </div>
+                                    <div class="modal-footer d-flex justify-content-between">
+                                        <form action="{{ route('duenos.pdf_historico', $dueno->id) }}" method="GET" target="_blank" class="d-inline-flex align-items-center">
+                                            <div class="custom-control custom-checkbox mr-3">
+                                                <input type="checkbox" class="custom-control-input" id="incluir_tratamientos{{$dueno->id}}" name="incluir_tratamientos" value="1">
+                                                <label class="custom-control-label text-sm" for="incluir_tratamientos{{$dueno->id}}">Incluir tratamientos</label>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary"><i class="fas fa-file-pdf"></i> Exportar a PDF</button>
+                                        </form>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         @empty
                         <tr>
-                            <td colspan="6" class="text-center">No hay propietarios registrados aún.</td>
+                            <td colspan="7" class="text-center">No hay propietarios registrados aún.</td>
                         </tr>
                         @endforelse
                     </tbody>

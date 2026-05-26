@@ -19,7 +19,9 @@ class Mascota extends Model
         'edad',
         'tipo_sangre',
         'comportamiento',
-        'es_adoptado'
+        'es_adoptado',
+        'activo',
+        'motivo_baja'
     ];
 
     public function dueno()
