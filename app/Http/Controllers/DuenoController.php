@@ -8,10 +8,19 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class DuenoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $duenos = Dueno::withCount('mascotas')->paginate(10);
-        return view('modules.veterinario.duenos.index', compact('duenos'));
+        $search = $request->input('search');
+        
+        $query = Dueno::withCount('mascotas')->orderBy('created_at', 'desc');
+
+        if ($search) {
+            $query->where('nombre_completo', 'like', "%{$search}%");
+        }
+
+        $duenos = $query->paginate(10);
+
+        return view('modules.veterinario.duenos.index', compact('duenos', 'search'));
     }
 
     public function create()

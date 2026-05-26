@@ -30,8 +30,24 @@
     @endif
 
     <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Listado de Propietarios Registrados</h6>
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Directorio de Propietarios</h6>
+            
+            <form action="{{ route('duenos.index') }}" method="GET" class="form-inline">
+                <div class="input-group input-group-sm">
+                    <input type="text" class="form-control" name="search" placeholder="Buscar por nombre..." value="{{ $search ?? '' }}">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fas fa-search fa-sm"></i>
+                        </button>
+                        @if(!empty($search))
+                            <a href="{{ route('duenos.index') }}" class="btn btn-secondary">
+                                <i class="fas fa-times fa-sm"></i>
+                            </a>
+                        @endif
+                    </div>
+                </div>
+            </form>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -152,8 +168,8 @@
                 </table>
             </div>
             
-            <div class="d-flex justify-content-end mt-3">
-                {{ $duenos->links('pagination::bootstrap-4') }}
+            <div class="d-flex justify-content-center mt-3">
+                {{ $duenos->appends(['search' => $search ?? ''])->links() }}
             </div>
         </div>
     </div>
