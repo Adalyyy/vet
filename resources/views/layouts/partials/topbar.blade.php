@@ -5,21 +5,7 @@
         <i class="fa fa-bars"></i>
     </button>
 
-    <!-- Topbar Navbar (Left) -->
-    <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-            <a class="nav-link text-gray-800 font-weight-bold" href="{{ Auth::user()->rol === 'administrador' ? route('admin.home') : route('home') }}">
-                <i class="fas fa-fw fa-home mr-1"></i>
-                Home
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-gray-800 font-weight-bold" href="{{ route('expedientes.index') }}">
-                <i class="fas fa-fw fa-folder-open mr-1"></i>
-                Expedientes
-            </a>
-        </li>
-    </ul>
+
 
     <!-- Topbar Navbar -->
     <ul class="navbar-nav ml-auto">
@@ -30,7 +16,9 @@
         <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Administrador</span>
+                <span class="mr-2 d-none d-lg-inline text-gray-600 font-weight-bold">
+                    {{ ucfirst(Auth::user()->rol) }} <span class="font-weight-normal">|</span> {{ Auth::user()->name }}
+                </span>
                 <img class="img-profile rounded-circle" src="{{ asset('startbootstrap/img/undraw_profile.svg') }}">
             </a>
             <!-- Dropdown - User Information -->

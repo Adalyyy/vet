@@ -64,7 +64,7 @@
                     <th width="18%">Veterinario</th>
                     <th width="10%">Peso/Talla</th>
                     <th width="30%">Diagnóstico</th>
-                    <th width="30%">Tratamiento</th>
+                    <th width="30%">Tratamiento y Medicamentos</th>
                 </tr>
             </thead>
             <tbody>
@@ -76,8 +76,22 @@
                             {{ $consulta->peso ? $consulta->peso . ' kg' : '-' }}<br>
                             {{ $consulta->talla ? $consulta->talla . ' cm' : '-' }}
                         </td>
-                        <td>{{ $consulta->diagnostico }}</td>
-                        <td>{{ $consulta->tratamiento }}</td>
+                        <td>
+                            {{ $consulta->diagnostico }}<br><br>
+                            @if($consulta->estado == 'en_seguimiento')
+                                <strong><span style="color: #e74a3b;">[En Seguimiento]</span></strong>
+                            @else
+                                <span style="color: #1cc88a;">[Completada]</span>
+                            @endif
+                        </td>
+                        <td>
+                            @if($consulta->tratamiento)
+                                <strong>Indicaciones:</strong><br>{{ $consulta->tratamiento }}<br><br>
+                            @endif
+                            @if($consulta->medicamentos)
+                                <strong>Receta:</strong><br>{{ $consulta->medicamentos }}
+                            @endif
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

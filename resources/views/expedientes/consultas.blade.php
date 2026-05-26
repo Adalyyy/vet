@@ -34,7 +34,7 @@
                             <tr>
                                 <th>Fecha</th>
                                 <th>Peso (kg)</th>
-                                <th>Talla (cm)</th>
+                                <th>Estado</th>
                                 <th class="text-center" style="width: 100px;">Acción</th>
                             </tr>
                         </thead>
@@ -43,7 +43,13 @@
                                 <tr>
                                     <td>{{ \Carbon\Carbon::parse($consulta->fecha_consulta)->format('d/m/Y H:i') }}</td>
                                     <td>{{ $consulta->peso ?? '-' }}</td>
-                                    <td>{{ $consulta->talla ?? '-' }}</td>
+                                    <td>
+                                        @if($consulta->estado == 'en_seguimiento')
+                                            <span class="badge badge-warning text-dark"><i class="fas fa-clock"></i> En Seguimiento</span>
+                                        @else
+                                            <span class="badge badge-success"><i class="fas fa-check-circle"></i> Cerrada</span>
+                                        @endif
+                                    </td>
                                     <td class="text-center">
                                         <a href="{{ route('expedientes.consulta_detalle', ['mascota' => $mascota->id, 'consulta' => $consulta->id]) }}" class="btn btn-sm btn-primary shadow-sm" title="Ver Detalles">
                                             <i class="fas fa-eye"></i> Ver
@@ -61,9 +67,9 @@
             </div>
             
             <div class="mt-4 text-center">
-                <button class="btn btn-info btn-lg shadow-sm">
+                <a href="{{ route('expedientes.consultas.create', $mascota->id) }}" class="btn btn-info btn-lg shadow-sm">
                     <i class="fas fa-plus fa-fw mr-2"></i> Nueva Consulta
-                </button>
+                </a>
             </div>
         </div>
     </div>

@@ -17,7 +17,9 @@ class Consulta extends Model
         'peso',
         'talla',
         'diagnostico',
-        'tratamiento'
+        'tratamiento',
+        'medicamentos',
+        'estado'
     ];
 
     public function mascota()

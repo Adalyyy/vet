@@ -73,11 +73,11 @@
                                                 <td class="align-middle">{{ $mascota->especie }} / {{ $mascota->raza }}</td>
                                                 <td class="align-middle">{{ $mascota->edad ?? 'N/A' }}</td>
                                                 <td class="text-center align-middle">
-                                                    <a href="{{ route('expedientes.consultas', $mascota->id) }}" class="btn btn-sm btn-primary btn-icon-split">
+                                                    <a href="{{ route('expedientes.consultas.create', $mascota->id) }}" class="btn btn-sm btn-primary btn-icon-split">
                                                         <span class="icon text-white-50">
                                                             <i class="fas fa-stethoscope"></i>
                                                         </span>
-                                                        <span class="text">Abrir Expediente</span>
+                                                        <span class="text">Dar Consulta</span>
                                                     </a>
                                                 </td>
                                             </tr>

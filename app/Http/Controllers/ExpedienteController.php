@@ -73,4 +73,44 @@ class ExpedienteController extends Controller
 
         return view('expedientes.diagnostico', compact('mascota', 'consulta', 'showSidebar'));
     }
+
+    public function createConsulta(Mascota $mascota)
+    {
+        $mascota->load('antecedentes');
+        $showSidebar = true;
+        return view('expedientes.consultas_create', compact('mascota', 'showSidebar'));
+    }
+
+    public function storeConsulta(Request $request, Mascota $mascota)
+    {
+        $request->validate([
+            'peso' => 'nullable|numeric|min:0',
+            'talla' => 'nullable|numeric|min:0',
+            'diagnostico' => 'required|string',
+            'tratamiento' => 'nullable|string',
+            'medicamentos' => 'nullable|string',
+            'estado' => 'required|in:cerrada,en_seguimiento',
+        ]);
+
+        $veterinario = \App\Models\Veterinario::where('usuario_id', auth()->id())->first();
+
+        if (!$veterinario) {
+            return redirect()->back()->withErrors(['veterinario' => 'No se encontró un perfil de veterinario asociado a tu cuenta. Contacta al administrador.']);
+        }
+
+        $consulta = new Consulta([
+            'veterinario_id' => $veterinario->id,
+            'fecha_consulta' => now(),
+            'peso' => $request->peso,
+            'talla' => $request->talla,
+            'diagnostico' => $request->diagnostico,
+            'tratamiento' => $request->tratamiento,
+            'medicamentos' => $request->medicamentos,
+            'estado' => $request->estado,
+        ]);
+
+        $mascota->consultas()->save($consulta);
+
+        return redirect()->route('expedientes.consultas', $mascota->id)->with('success', 'Consulta registrada exitosamente.');
+    }
 }
