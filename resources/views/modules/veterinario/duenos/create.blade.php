@@ -57,20 +57,21 @@
 
                 <hr class="mt-4 mb-4">
                 
-                <h5 class="text-primary font-weight-bold mb-3"><i class="fas fa-paw"></i> Registrar Mascota (Opcional)</h5>
+                <h5 class="text-primary font-weight-bold mb-3"><i class="fas fa-paw"></i> Registrar Primera Mascota</h5>
+                <p class="text-muted small">Es obligatorio registrar al menos una mascota al dar de alta a un nuevo propietario.</p>
                 
                 <div class="row">
                     <div class="col-md-4 mb-3">
-                        <label for="mascota_nombre" class="font-weight-bold">Nombre de la mascota</label>
-                        <input type="text" class="form-control" id="mascota_nombre" name="mascota_nombre" value="{{ old('mascota_nombre') }}">
+                        <label for="mascota_nombre" class="font-weight-bold">Nombre de la mascota <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="mascota_nombre" name="mascota_nombre" value="{{ old('mascota_nombre') }}" required>
                     </div>
                     <div class="col-md-4 mb-3">
-                        <label for="mascota_especie" class="font-weight-bold">Especie (Ej. Perro, Gato)</label>
-                        <input type="text" class="form-control" id="mascota_especie" name="mascota_especie" value="{{ old('mascota_especie') }}">
+                        <label for="mascota_especie" class="font-weight-bold">Especie (Ej. Perro, Gato) <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="mascota_especie" name="mascota_especie" value="{{ old('mascota_especie') }}" required>
                     </div>
                     <div class="col-md-4 mb-3">
-                        <label for="mascota_raza" class="font-weight-bold">Raza</label>
-                        <input type="text" class="form-control" id="mascota_raza" name="mascota_raza" value="{{ old('mascota_raza') }}">
+                        <label for="mascota_raza" class="font-weight-bold">Raza <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="mascota_raza" name="mascota_raza" value="{{ old('mascota_raza') }}" required>
                     </div>
                 </div>
 

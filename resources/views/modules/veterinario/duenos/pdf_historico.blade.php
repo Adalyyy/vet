@@ -120,6 +120,11 @@
                 <div style="font-size: 12px; color: #c0392b; margin-top: 5px;">
                     <strong>Motivo de Baja:</strong> {{ $mascota->motivo_baja }}
                 </div>
+                @if($mascota->motivo_baja === 'Fallecimiento')
+                <div style="font-size: 11px; font-style: italic; color: #7f8c8d; margin-top: 6px; padding: 5px; background-color: #fff; border-radius: 3px;">
+                    "El amor incondicional que nos dan deja una huella imborrable en nuestros corazones. En memoria de un gran amigo fiel."
+                </div>
+                @endif
             </div>
         @endforeach
     @else

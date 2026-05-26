@@ -26,30 +26,28 @@ class DuenoController extends Controller
             'telefono' => 'required|string|max:20',
             'direccion' => 'required|string',
             'redes_sociales' => 'nullable|string|max:255',
-            // Validaciones opcionales para la mascota
-            'mascota_nombre' => 'nullable|string|max:255',
-            'mascota_especie' => 'nullable|string|max:255',
-            'mascota_raza' => 'nullable|string|max:255',
-            'mascota_fecha_nacimiento' => 'required_with:mascota_nombre|date',
+            // Validaciones obligatorias para la mascota
+            'mascota_nombre' => 'required|string|max:255',
+            'mascota_especie' => 'required|string|max:255',
+            'mascota_raza' => 'required|string|max:255',
+            'mascota_fecha_nacimiento' => 'required|date',
             'mascota_edad' => 'nullable|string|max:100',
             'mascota_tipo_sangre' => 'nullable|string|max:100',
         ]);
 
         $dueno = Dueno::create($request->only(['nombre_completo', 'telefono', 'direccion', 'redes_sociales']));
 
-        // Si se envió el nombre de la mascota, la registramos
-        if ($request->filled('mascota_nombre')) {
-            $dueno->mascotas()->create([
-                'nombre' => $request->mascota_nombre,
-                'especie' => $request->mascota_especie,
-                'raza' => $request->mascota_raza,
-                'fecha_nacimiento' => $request->mascota_fecha_nacimiento,
-                'edad' => $request->mascota_edad,
-                'tipo_sangre' => $request->mascota_tipo_sangre,
-                'comportamiento' => $request->mascota_comportamiento,
-                'es_adoptado' => $request->has('mascota_es_adoptado') ? true : false,
-            ]);
-        }
+        // Registramos obligatoriamente su primera mascota
+        $dueno->mascotas()->create([
+            'nombre' => $request->mascota_nombre,
+            'especie' => $request->mascota_especie,
+            'raza' => $request->mascota_raza,
+            'fecha_nacimiento' => $request->mascota_fecha_nacimiento,
+            'edad' => $request->mascota_edad,
+            'tipo_sangre' => $request->mascota_tipo_sangre,
+            'comportamiento' => $request->mascota_comportamiento,
+            'es_adoptado' => $request->has('mascota_es_adoptado') ? true : false,
+        ]);
 
         return redirect()->route('duenos.index')->with('success', 'Dueño/Propietario registrado exitosamente.');
     }
