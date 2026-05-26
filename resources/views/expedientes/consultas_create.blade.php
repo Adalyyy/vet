@@ -250,8 +250,8 @@
                 @endif
             </div>
             <div class="modal-footer bg-white">
-                <a href="{{ route('expedientes.consultas', $mascota->id) }}" class="btn btn-outline-info" target="_blank">
-                    <i class="fas fa-external-link-alt mr-1"></i> Ver Carnet Completo
+                <a href="{{ route('mascotas.show', $mascota->id) }}" class="btn btn-outline-info" target="_blank">
+                    <i class="fas fa-external-link-alt mr-1"></i> Ver Expediente Completo
                 </a>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>

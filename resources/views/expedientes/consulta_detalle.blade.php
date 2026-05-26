@@ -7,8 +7,8 @@
         <h1 class="h3 mb-0 text-gray-800">
             <i class="fas fa-stethoscope text-primary mr-2"></i>Consulta: {{ $mascota->nombre }}
         </h1>
-        <a href="{{ route('expedientes.consultas', $mascota->id) }}" class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm">
-            <i class="fas fa-arrow-left fa-sm text-white-50"></i> Volver al Historial
+        <a href="{{ route('mascotas.show', $mascota->id) }}" class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm">
+            <i class="fas fa-arrow-left fa-sm text-white-50"></i> Volver al Expediente
         </a>
     </div>
 

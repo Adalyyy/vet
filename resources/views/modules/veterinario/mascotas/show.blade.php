@@ -116,12 +116,13 @@
                     <table class="table table-bordered table-striped" width="100%" cellspacing="0">
                         <thead class="thead-light">
                             <tr>
-                                <th width="12%">Fecha</th>
-                                <th width="18%">Veterinario</th>
-                                <th width="10%">Peso</th>
-                                <th width="10%">Talla</th>
-                                <th width="20%">Diagnóstico (Resumen)</th>
-                                <th width="20%">Tratamiento Indicado</th>
+                                <th width="10%">Fecha</th>
+                                <th width="15%">Veterinario</th>
+                                <th width="8%">Peso</th>
+                                <th width="8%">Talla</th>
+                                <th width="19%">Diagnóstico (Resumen)</th>
+                                <th width="19%">Tratamiento Indicado</th>
+                                <th width="11%">Estado</th>
                                 <th width="10%">Acciones</th>
                             </tr>
                         </thead>
@@ -134,10 +135,21 @@
                                     <td>{{ $consulta->talla ? $consulta->talla . ' cm' : 'N/A' }}</td>
                                     <td>{{ Str::limit($consulta->diagnostico, 100, '...') }}</td>
                                     <td>{{ Str::limit($consulta->tratamiento, 150, '...') }}</td>
+                                    <td>
+                                        @if($consulta->estado == 'en_seguimiento')
+                                            <span class="badge badge-warning text-dark"><i class="fas fa-clock"></i> Seguimiento</span>
+                                        @else
+                                            <span class="badge badge-success"><i class="fas fa-check-circle"></i> Cerrada</span>
+                                        @endif
+                                    </td>
                                     <td class="text-center">
-                                        <a href="{{ route('mascotas.pdf_consulta', $consulta->id) }}" class="btn btn-sm btn-outline-danger" title="Descargar Consulta en PDF">
-                                            <i class="fas fa-file-pdf"></i>
-                                        </a>
+                                        @if($consulta->estado == 'cerrada')
+                                            <a href="{{ route('mascotas.pdf_consulta', $consulta->id) }}" class="btn btn-sm btn-outline-danger" title="Descargar Consulta en PDF">
+                                                <i class="fas fa-file-pdf"></i>
+                                            </a>
+                                        @else
+                                            <span class="text-muted small" title="Cierre la consulta para exportar"><i class="fas fa-lock"></i> PDF</span>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

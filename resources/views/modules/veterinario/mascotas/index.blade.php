@@ -35,9 +35,6 @@
                                 <a href="{{ route('mascotas.antecedentes.index', $mascota->id) }}" class="btn btn-sm btn-warning mr-1" title="Antecedentes">
                                     <i class="fas fa-clipboard-list"></i> Antecedentes
                                 </a>
-                                <a href="{{ route('expedientes.consultas', $mascota->id) }}" class="btn btn-sm btn-primary mr-1" title="Carnet de Consultas">
-                                    <i class="fas fa-book-medical"></i> Carnet
-                                </a>
                                 <a href="{{ route('mascotas.show', $mascota->id) }}" class="btn btn-sm btn-info" title="Expediente Clínico">
                                     <i class="fas fa-notes-medical"></i> Expediente
                                 </a>

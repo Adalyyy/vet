@@ -8,11 +8,7 @@ use App\Models\Consulta;
 
 class ExpedienteController extends Controller
 {
-    public function consultas(Mascota $mascota)
-    {
-        $mascota->load('dueno', 'consultas.veterinario');
-        return view('expedientes.consultas', compact('mascota'));
-    }
+    // public function consultas(Mascota $mascota) removed
 
     public function consultaDetalle(Mascota $mascota, Consulta $consulta)
     {
@@ -128,6 +124,6 @@ class ExpedienteController extends Controller
 
         $mascota->consultas()->save($consulta);
 
-        return redirect()->route('expedientes.consultas', $mascota->id)->with('success', 'Consulta registrada exitosamente.');
+        return redirect()->route('mascotas.show', $mascota->id)->with('success', 'Consulta registrada exitosamente.');
     }
 }
