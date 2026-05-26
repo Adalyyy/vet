@@ -1,0 +1,184 @@
+@extends('layouts.app')
+
+@section('titulo_pagina', 'Editar Dueño | Sistema Veterinaria')
+
+@section('contenido')
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Editar Dueño: {{ $dueno->nombre_completo }}</h1>
+        <a href="{{ route('duenos.index') }}" class="btn btn-sm btn-secondary shadow-sm">
+            <i class="fas fa-arrow-left fa-sm text-white-50"></i> Volver al listado
+        </a>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Actualizar Información</h6>
+        </div>
+            @if(session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @endif
+
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <strong>Error:</strong> Por favor corrige los siguientes errores:<br><br>
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <form action="{{ route('duenos.update', $dueno->id) }}" method="POST">
+                @csrf
+                @method('PUT')
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="nombre_completo" class="font-weight-bold">Nombre Completo <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control @error('nombre_completo') is-invalid @enderror" id="nombre_completo" name="nombre_completo" value="{{ old('nombre_completo', $dueno->nombre_completo) }}" required>
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <label for="telefono" class="font-weight-bold">Teléfono de Contacto <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control @error('telefono') is-invalid @enderror" id="telefono" name="telefono" value="{{ old('telefono', $dueno->telefono) }}" required>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <label for="direccion" class="font-weight-bold">Dirección Completa <span class="text-danger">*</span></label>
+                        <textarea class="form-control @error('direccion') is-invalid @enderror" id="direccion" name="direccion" rows="3" required>{{ old('direccion', $dueno->direccion) }}</textarea>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 mb-4">
+                        <label for="redes_sociales" class="font-weight-bold">Redes Sociales / Notas Adicionales (Opcional)</label>
+                        <input type="text" class="form-control @error('redes_sociales') is-invalid @enderror" id="redes_sociales" name="redes_sociales" value="{{ old('redes_sociales', $dueno->redes_sociales) }}" placeholder="Ej. Facebook: /juan.perez, Instagram: @juanp">
+                    </div>
+                </div>
+
+                <hr>
+                
+                <button type="submit" class="btn btn-warning"><i class="fas fa-edit"></i> Actualizar Dueño</button>
+                <a href="{{ route('duenos.index') }}" class="btn btn-secondary">Cancelar</a>
+            </form>
+        </div>
+    </div>
+
+    <!-- Sección de Mascotas del Dueño -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-success"><i class="fas fa-paw"></i> Mascotas Registradas</h6>
+            <button type="button" class="btn btn-sm btn-success shadow-sm" data-toggle="modal" data-target="#nuevaMascotaModal">
+                <i class="fas fa-plus fa-sm text-white-50"></i> Agregar Nueva Mascota
+            </button>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-sm" width="100%" cellspacing="0">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Especie / Raza</th>
+                            <th>Fecha Nac.</th>
+                            <th>¿Adoptado?</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($dueno->mascotas as $mascota)
+                        <tr>
+                            <td><strong>{{ $mascota->nombre }}</strong></td>
+                            <td>{{ $mascota->especie }} / {{ $mascota->raza }}</td>
+                            <td>{{ $mascota->fecha_nacimiento ?? 'N/A' }}</td>
+                            <td>{{ $mascota->es_adoptado ? 'Sí' : 'No' }}</td>
+                            <td>
+                                <!-- Aquí en un futuro puedes vincularlo al perfil de la mascota/expediente -->
+                                <button class="btn btn-sm btn-info" disabled title="Ver Expediente (Próximamente)"><i class="fas fa-folder-open"></i></button>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">Este dueño aún no tiene mascotas registradas.</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Agregar Mascota -->
+    <div class="modal fade" id="nuevaMascotaModal" tabindex="-1" role="dialog" aria-labelledby="nuevaMascotaModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <form action="{{ route('duenos.mascotas.store', $dueno->id) }}" method="POST">
+                    @csrf
+                    <div class="modal-header bg-success text-white">
+                        <h5 class="modal-title" id="nuevaMascotaModalLabel"><i class="fas fa-plus"></i> Registrar Nueva Mascota para {{ $dueno->nombre_completo }}</h5>
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="nombre" class="font-weight-bold">Nombre <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="especie" class="font-weight-bold">Especie <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="especie" name="especie" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="raza" class="font-weight-bold">Raza <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="raza" name="raza" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="fecha_nacimiento" class="font-weight-bold">F. Nacimiento / Adopción <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="edad" class="font-weight-bold">Edad (Meses/Años)</label>
+                                <input type="text" class="form-control" id="edad" name="edad" placeholder="Ej. 6 meses, 3 años">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="tipo_sangre" class="font-weight-bold">Tipo de Sangre</label>
+                                <input type="text" class="form-control" id="tipo_sangre" name="tipo_sangre">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="comportamiento" class="font-weight-bold">Comportamiento</label>
+                                <input type="text" class="form-control" id="comportamiento" name="comportamiento">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="es_adoptado" name="es_adoptado">
+                                    <label class="custom-control-label" for="es_adoptado">¿Es adoptado?</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Guardar Mascota</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+@endsection

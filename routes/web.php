@@ -21,6 +21,10 @@ Route::middleware("auth")->group(function () {
         Route::get('/expedientes/{mascota}/consultas', [App\Http\Controllers\ExpedienteController::class, 'consultas'])->name('expedientes.consultas');
         Route::get('/expedientes/{mascota}/consultas/{consulta}', [App\Http\Controllers\ExpedienteController::class, 'consultaDetalle'])->name('expedientes.consulta_detalle');
         Route::get('/expedientes/{mascota}/consultas/{consulta}/diagnostico', [App\Http\Controllers\ExpedienteController::class, 'diagnostico'])->name('expedientes.diagnostico');
+        
+        // Rutas de dueños y sus mascotas
+        Route::resource('duenos', App\Http\Controllers\DuenoController::class);
+        Route::post('duenos/{dueno}/mascotas', [App\Http\Controllers\DuenoController::class, 'storeMascota'])->name('duenos.mascotas.store');
     });
 
     // Rutas administrador

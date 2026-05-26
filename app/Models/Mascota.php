@@ -16,6 +16,7 @@ class Mascota extends Model
         'especie',
         'raza',
         'fecha_nacimiento',
+        'edad',
         'tipo_sangre',
         'comportamiento',
         'es_adoptado'

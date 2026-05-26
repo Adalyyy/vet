@@ -24,6 +24,22 @@
 
     <!-- Heading -->
     <div class="sidebar-heading">
+        Directorio
+    </div>
+
+    <!-- Nav Item - Dueños -->
+    <li class="nav-item {{ request()->routeIs('duenos.*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('duenos.index') }}">
+            <i class="fas fa-fw fa-users"></i>
+            <span>Dueños / Propietarios</span>
+        </a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
         Detalles Médicos
     </div>
 
