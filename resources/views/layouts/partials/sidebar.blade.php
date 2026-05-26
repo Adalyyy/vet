@@ -68,8 +68,8 @@
     </div>
 
     <!-- Agenda / Citas -->
-    <li class="nav-item">
-        <a class="nav-link" href="#">
+    <li class="nav-item {{ request()->routeIs('citas.*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('citas.index') }}">
             <i class="fas fa-fw fa-calendar-alt"></i>
             <span>Agenda / Citas</span>
         </a>

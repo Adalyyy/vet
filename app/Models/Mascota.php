@@ -39,6 +39,11 @@ class Mascota extends Model
         return $this->hasMany(Antecedente::class);
     }
 
+    public function citas()
+    {
+        return $this->hasMany(Cita::class);
+    }
+
     public function toSearchableArray()
     {
         return [

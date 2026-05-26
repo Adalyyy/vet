@@ -20,6 +20,10 @@ Route::middleware("auth")->group(function () {
         Route::post('/expedientes/{mascota}/consultas', [App\Http\Controllers\ExpedienteController::class, 'storeConsulta'])->name('expedientes.consultas.store');
         Route::get('/expedientes/{mascota}/consultas/{consulta}', [App\Http\Controllers\ExpedienteController::class, 'consultaDetalle'])->name('expedientes.consulta_detalle');
         Route::put('/expedientes/{mascota}/consultas/{consulta}', [App\Http\Controllers\ExpedienteController::class, 'updateConsulta'])->name('expedientes.consultas.update');
+
+        // Agenda / Citas
+        Route::get('/citas/export-pdf', [App\Http\Controllers\CitaController::class, 'exportPdf'])->name('citas.export_pdf');
+        Route::resource('citas', App\Http\Controllers\CitaController::class);
         Route::get('/expedientes/{mascota}/consultas/{consulta}/diagnostico', [App\Http\Controllers\ExpedienteController::class, 'diagnostico'])->name('expedientes.diagnostico');
         
         // Rutas de dueños y sus mascotas
